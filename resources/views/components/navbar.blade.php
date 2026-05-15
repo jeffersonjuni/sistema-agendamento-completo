@@ -1,7 +1,13 @@
 <header class="navbar">
 
-    <div>
+    <div class="navbar-left">
+
+        <button class="menu-toggle" id="menuToggle">
+            ☰
+        </button>
+
         <h1>Painel Administrativo</h1>
+
     </div>
 
     <div class="navbar-user">

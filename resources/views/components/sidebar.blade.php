@@ -1,4 +1,4 @@
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
     <div class="sidebar-logo">
         <h2>AgendaPro</h2>

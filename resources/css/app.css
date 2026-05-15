@@ -46,6 +46,8 @@ ul {
     flex-direction: column;
 
     padding: 24px;
+
+    transition: 0.3s;
 }
 
 .sidebar-logo {
@@ -99,6 +101,22 @@ ul {
     font-weight: bold;
 }
 
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.menu-toggle {
+    display: none;
+
+    border: none;
+    background: transparent;
+
+    font-size: 24px;
+    cursor: pointer;
+}
+
 .footer {
     background-color: #ffffff;
 
@@ -116,4 +134,39 @@ ul {
 
 .page-header p {
     color: #6b7280;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+
+        left: -260px;
+        top: 0;
+
+        height: 100vh;
+
+        z-index: 999;
+
+        transition: 0.3s;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .navbar {
+        padding: 0 16px;
+    }
+
+    .footer {
+        padding: 16px;
+    }
 }
