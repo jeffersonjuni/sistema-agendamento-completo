@@ -1,11 +1,19 @@
-<aside>
-    <h2>Sistema</h2>
+<aside class="sidebar">
 
-    <nav>
+    <div class="sidebar-logo">
+        <h2>AgendaPro</h2>
+    </div>
+
+    <nav class="sidebar-nav">
+
         <ul>
+
             <li>
-                <a href="#">Dashboard</a>
+                <a href="/">Dashboard</a>
             </li>
+
         </ul>
+
     </nav>
+
 </aside>

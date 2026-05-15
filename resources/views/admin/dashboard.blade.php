@@ -4,6 +4,9 @@
 
 @section('content')
 
-    <h2>Dashboard</h2>
+    <div class="page-header">
+        <h2>Dashboard</h2>
+        <p>Bem-vindo ao sistema de agendamento.</p>
+    </div>
 
 @endsection
