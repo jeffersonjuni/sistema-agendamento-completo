@@ -10,8 +10,16 @@
 
     </div>
 
-    <div class="navbar-user">
-        <span>Administrador</span>
+    <div class="navbar-actions">
+
+        <button class="theme-toggle" id="themeToggle">
+            🌙
+        </button>
+
+        <div class="navbar-user">
+            <span>Administrador</span>
+        </div>
+
     </div>
 
 </header>
