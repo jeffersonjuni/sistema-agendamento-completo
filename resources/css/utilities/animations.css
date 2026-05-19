@@ -1,0 +1,24 @@
+::selection {
+    background: var(--primary);
+    color: var(--primary-foreground);
+}
+
+.sidebar,
+.navbar,
+.footer,
+.card-default,
+.input-default {
+    transition:
+        background-color 0.3s,
+        border-color 0.3s,
+        color 0.3s;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}

@@ -1,0 +1,25 @@
+.theme-toggle {
+    width: 42px;
+    height: 42px;
+
+    border: 1px solid var(--border);
+
+    background: var(--card);
+    color: var(--foreground);
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    transition: 0.2s;
+}
+
+.theme-toggle:hover {
+    background: var(--muted);
+}

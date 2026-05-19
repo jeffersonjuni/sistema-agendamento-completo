@@ -1,0 +1,32 @@
+.table-default {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: var(--card);
+
+    border-radius: var(--radius);
+
+    overflow: hidden;
+}
+
+.table-default thead {
+    background: var(--muted);
+}
+
+.table-default th,
+.table-default td {
+    padding: 16px;
+
+    text-align: left;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.table-default tbody tr {
+    transition: 0.2s;
+}
+
+.table-default tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
