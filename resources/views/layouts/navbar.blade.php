@@ -6,19 +6,25 @@
             ☰
         </button>
 
-        <h1>Painel Administrativo</h1>
+        <h1>
+            Dashboard
+        </h1>
 
     </div>
 
     <div class="navbar-actions">
 
+        <div class="navbar-user">
+
+            <span>
+                Jefferson Junior
+            </span>
+
+        </div>
+
         <button class="theme-toggle" id="themeToggle">
             🌙
         </button>
-
-        <div class="navbar-user">
-            <span>Administrador</span>
-        </div>
 
     </div>
 

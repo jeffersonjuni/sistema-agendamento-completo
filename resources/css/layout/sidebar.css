@@ -8,7 +8,18 @@
 
     padding: 24px;
 
-    transition: 0.3s;
+    transition:
+        width 0.3s,
+        left 0.3s;
+}
+
+.sidebar.collapsed {
+    width: 90px;
+}
+
+.sidebar.collapsed .sidebar-logo h2,
+.sidebar.collapsed .sidebar-nav span {
+    display: none;
 }
 
 .sidebar-logo {

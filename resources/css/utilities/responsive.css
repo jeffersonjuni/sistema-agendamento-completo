@@ -1,10 +1,68 @@
+/* ========================================
+   GRID UTILITIES
+======================================== */
+
+.grid-auto-fit {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 24px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+/* ========================================
+   MOBILE OVERLAY
+======================================== */
+
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: 0.3s;
+
+    z-index: 998;
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ========================================
+   MOBILE PEQUENO
+======================================== */
+
+@media (max-width: 480px) {
+
+}
+
+/* ========================================
+   MOBILE
+======================================== */
+
 @media (max-width: 768px) {
+
     .sidebar {
         position: fixed;
 
         left: -260px;
         top: 0;
 
+        width: 260px;
         height: 100vh;
 
         z-index: 999;
@@ -31,9 +89,27 @@
     .footer {
         padding: 16px;
     }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
 }
 
+/* ========================================
+   TABLET
+======================================== */
+
+@media (max-width: 1024px) {
+
+}
+
+/* ========================================
+   SMALL DEVICES
+======================================== */
+
 @media (max-width: 640px) {
+
     .page-header h2 {
         font-size: 24px;
     }
@@ -45,4 +121,13 @@
     .btn {
         width: 100%;
     }
+
+}
+
+/* ========================================
+   DESKTOP GRANDE
+======================================== */
+
+@media (min-width: 1400px) {
+
 }

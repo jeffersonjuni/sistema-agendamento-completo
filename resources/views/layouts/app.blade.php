@@ -10,23 +10,25 @@
 </head>
 <body>
 
-    <div class="layout">
+   <div class="layout">
 
-        @include('components.sidebar')
+    @include('layouts.sidebar')
 
-        <div class="main-content">
+    <div class="mobile-overlay" id="mobileOverlay"></div>
 
-            @include('components.navbar')
+    <div class="main-content">
 
-            <main class="content">
-                @yield('content')
-            </main>
+        @include('layouts.navbar')
 
-            @include('components.footer')
+        <main class="content">
+            @yield('content')
+        </main>
 
-        </div>
+        @include('layouts.footer')
 
     </div>
+
+</div>
 
 </body>
 </html>

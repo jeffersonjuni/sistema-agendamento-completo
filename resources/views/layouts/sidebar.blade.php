@@ -9,7 +9,9 @@
         <ul>
 
             <li>
-                <a href="/">Dashboard</a>
+                <a href="/">
+                    <span>Dashboard</span>
+                </a>
             </li>
 
         </ul>
@@ -17,3 +19,5 @@
     </nav>
 
 </aside>
+
+<div class="mobile-overlay" id="mobileOverlay"></div>

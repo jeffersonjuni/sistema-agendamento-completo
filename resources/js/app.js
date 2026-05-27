@@ -1,16 +1,9 @@
-const menuToggle = document.getElementById("menuToggle");
-const sidebar = document.getElementById("sidebar");
 import Alpine from "alpinejs";
+import "./sidebar";
 
 window.Alpine = Alpine;
 
 Alpine.start();
-
-if (menuToggle && sidebar) {
-    menuToggle.addEventListener("click", () => {
-        sidebar.classList.toggle("active");
-    });
-}
 
 /* ========================================
    DARK MODE
