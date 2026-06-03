@@ -14,13 +14,19 @@ const themeToggle = document.getElementById("themeToggle");
 const savedTheme = localStorage.getItem("theme");
 
 if (savedTheme) {
-    document.documentElement.classList.toggle("dark", savedTheme === "dark");
+    document.documentElement.classList.toggle(
+        "dark",
+        savedTheme === "dark"
+    );
 } else {
     const systemDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)",
+        "(prefers-color-scheme: dark)"
     ).matches;
 
-    document.documentElement.classList.toggle("dark", systemDarkMode);
+    document.documentElement.classList.toggle(
+        "dark",
+        systemDarkMode
+    );
 }
 
 updateThemeIcon();
@@ -28,15 +34,20 @@ updateThemeIcon();
 themeToggle?.addEventListener("click", () => {
     document.documentElement.classList.toggle("dark");
 
-    const isDark = document.documentElement.classList.contains("dark");
+    const isDark =
+        document.documentElement.classList.contains("dark");
 
-    localStorage.setItem("theme", isDark ? "dark" : "light");
+    localStorage.setItem(
+        "theme",
+        isDark ? "dark" : "light"
+    );
 
     updateThemeIcon();
 });
 
 function updateThemeIcon() {
-    const isDark = document.documentElement.classList.contains("dark");
+    const isDark =
+        document.documentElement.classList.contains("dark");
 
     if (themeToggle) {
         themeToggle.textContent = isDark ? "☀️" : "🌙";
