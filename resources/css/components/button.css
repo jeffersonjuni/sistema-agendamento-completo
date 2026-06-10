@@ -1,65 +1,66 @@
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
 
-    gap: 8px;
+    gap:8px;
 
-    border: none;
+    padding:12px 18px;
 
-    padding: 12px 18px;
+    border:none;
+    border-radius:12px;
 
-    border-radius: 12px;
+    font-size:14px;
+    font-weight:600;
 
-    font-size: 14px;
-    font-weight: 600;
+    cursor:pointer;
 
-    cursor: pointer;
-
-    transition: 0.2s;
+    transition:
+        transform .2s,
+        opacity .2s,
+        box-shadow .2s;
 }
 
-.btn-primary {
-    background: var(--primary);
-    color: var(--primary-foreground);
-
-    box-shadow: var(--shadow-sm);
+.btn-primary{
+    background:var(--primary);
+    color:var(--primary-foreground);
+    box-shadow:var(--shadow-sm);
 }
 
-.btn-primary:hover {
-    transform: translateY(-1px);
-
-    box-shadow: var(--shadow-md);
-
-    opacity: 0.95;
+.btn-primary:hover{
+    transform:translateY(-1px);
+    box-shadow:var(--shadow-md);
 }
 
-.btn-secondary {
-    background: var(--secondary);
-    color: var(--secondary-foreground);
+.btn-secondary{
+    background:var(--secondary);
+    color:var(--secondary-foreground);
 }
 
-.btn-secondary:hover {
-    opacity: 0.9;
+.btn-secondary:hover{
+    transform:translateY(-1px);
 }
 
-.btn-danger {
-    background: var(--destructive);
-    color: var(--destructive-foreground);
+.btn-danger{
+    background:var(--destructive);
+    color:var(--destructive-foreground);
 }
 
-.btn-danger:hover {
-    opacity: 0.9;
+.btn-danger:hover{
+    transform:translateY(-1px);
 }
 
-button,
-.card-default,
-.input-default,
-.theme-toggle {
-    will-change: transform;
+button{
+    transition:
+        transform .2s,
+        opacity .2s;
 }
 
-button:hover,
-.theme-toggle:hover {
-    transform: translateY(-1px);
+button:active{
+    transform:scale(.98);
+}
+
+button:disabled{
+    opacity:.7;
+    cursor:not-allowed;
 }

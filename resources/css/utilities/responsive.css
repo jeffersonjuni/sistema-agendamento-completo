@@ -5,8 +5,7 @@
 .grid-auto-fit {
     display: grid;
 
-    grid-template-columns:
-        repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 
     gap: 24px;
 }
@@ -47,7 +46,22 @@
 ======================================== */
 
 @media (max-width: 480px) {
+    .auth-page {
+        padding: 16px;
+    }
 
+    .auth-card {
+        max-width: 100%;
+    }
+
+    .auth-title {
+        font-size: 24px;
+        line-height: 1.2;
+    }
+
+    .auth-description {
+        font-size: 14px;
+    }
 }
 
 /* ========================================
@@ -55,7 +69,6 @@
 ======================================== */
 
 @media (max-width: 768px) {
-
     .sidebar {
         position: fixed;
 
@@ -94,6 +107,21 @@
         grid-template-columns: 1fr;
     }
 
+    .auth-page {
+        padding: 20px;
+    }
+
+    .auth-card {
+        max-width: 100%;
+    }
+
+    .auth-title {
+        font-size: 28px;
+    }
+
+    .auth-description {
+        font-size: 15px;
+    }
 }
 
 /* ========================================
@@ -101,7 +129,6 @@
 ======================================== */
 
 @media (max-width: 1024px) {
-
 }
 
 /* ========================================
@@ -109,7 +136,6 @@
 ======================================== */
 
 @media (max-width: 640px) {
-
     .page-header h2 {
         font-size: 24px;
     }
@@ -121,7 +147,6 @@
     .btn {
         width: 100%;
     }
-
 }
 
 /* ========================================
@@ -129,5 +154,4 @@
 ======================================== */
 
 @media (min-width: 1400px) {
-
 }

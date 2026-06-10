@@ -7,6 +7,7 @@
 @import "./layout/navbar.css";
 @import "./layout/footer.css";
 @import "./layout/content.css";
+@import "./layout/auth.css";
 
 @import "./components/button.css";
 @import "./components/card.css";
@@ -17,6 +18,9 @@
 @import "./components/dropdown.css";
 @import "./components/toast.css";
 @import "./components/loader.css";
+@import "./components/label.css";
+@import "./components/form.css";
+
 
 @import "./utilities/animations.css";
 @import "./utilities/responsive.css";
