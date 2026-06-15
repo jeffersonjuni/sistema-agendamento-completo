@@ -79,3 +79,14 @@
     align-items: center;
     gap: 16px;
 }
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+}

@@ -79,6 +79,11 @@
 
                     </div>
 
+                    <small class="password-hint">
+                        Mínimo 8 caracteres, letra maiúscula,
+                        número e caractere especial.
+                    </small>
+
                 </div>
 
                 <div class="form-group">

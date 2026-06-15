@@ -83,3 +83,15 @@
 .password-toggle:active{
     transform:translateY(-50%) scale(.95);
 }
+
+.password-hint{
+    display:block;
+
+    margin-top:8px;
+
+    font-size:13px;
+
+    color:var(--muted-foreground);
+
+    line-height:1.4;
+}

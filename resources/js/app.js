@@ -77,10 +77,7 @@ document.querySelectorAll(".password-toggle").forEach((button) => {
     });
 });
 
-
-
 function enableLoading(formId, buttonId, loadingText) {
-
     const form = document.getElementById(formId);
 
     const button = document.getElementById(buttonId);
@@ -88,29 +85,38 @@ function enableLoading(formId, buttonId, loadingText) {
     if (!form || !button) return;
 
     form.addEventListener("submit", () => {
-
         button.disabled = true;
 
         button.textContent = loadingText;
-
     });
-
 }
 
-enableLoading(
-    "loginForm",
-    "loginButton",
-    "Entrando..."
-);
+enableLoading("loginForm", "loginButton", "Entrando...");
 
-enableLoading(
-    "registerForm",
-    "registerButton",
-    "Criando conta..."
-);
+enableLoading("registerForm", "registerButton", "Criando conta...");
 
-enableLoading(
-    "forgotForm",
-    "forgotButton",
-    "Enviando..."
-);
+enableLoading("forgotForm", "forgotButton", "Enviando...");
+
+/* ========================================
+   LOGOUT MODAL
+======================================== */
+
+const logoutButton = document.getElementById("logoutButton");
+
+const logoutModal = document.getElementById("logoutModal");
+
+const cancelLogout = document.getElementById("cancelLogout");
+
+logoutButton?.addEventListener("click", () => {
+    logoutModal?.classList.add("active");
+});
+
+cancelLogout?.addEventListener("click", () => {
+    logoutModal?.classList.remove("active");
+});
+
+logoutModal?.addEventListener("click", (event) => {
+    if (event.target === logoutModal) {
+        logoutModal.classList.remove("active");
+    }
+});

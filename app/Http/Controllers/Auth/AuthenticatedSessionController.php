@@ -34,7 +34,17 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return redirect()->route('dashboard');
+        if ($user->role === 'client') {
+            return redirect()->route('client.dashboard');
+        }
+
+        Auth::logout();
+
+        return redirect()
+            ->route('login')
+            ->withErrors([
+                'email' => 'Perfil inválido.',
+            ]);
     }
 
     /**

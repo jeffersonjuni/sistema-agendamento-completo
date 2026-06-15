@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
@@ -29,7 +30,11 @@ class RegisterRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                'min:8'
+
+                Password::min(8)
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols(),
             ],
         ];
     }
@@ -37,6 +42,7 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
+
             'name.required' => 'O nome é obrigatório.',
             'name.min' => 'O nome deve possuir pelo menos 3 caracteres.',
 
@@ -47,6 +53,10 @@ class RegisterRequest extends FormRequest
             'password.required' => 'A senha é obrigatória.',
             'password.min' => 'A senha deve possuir pelo menos 8 caracteres.',
             'password.confirmed' => 'As senhas não coincidem.',
+
+            'password.mixed_case' => 'A senha deve possuir letras maiúsculas e minúsculas.',
+            'password.numbers' => 'A senha deve possuir pelo menos um número.',
+            'password.symbols' => 'A senha deve possuir pelo menos um caractere especial.',
         ];
     }
 }
