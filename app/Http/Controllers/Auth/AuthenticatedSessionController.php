@@ -31,12 +31,10 @@ class AuthenticatedSessionController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'admin') {
-            return redirect()->route('dashboard');
+            return redirect()->intended(route('admin.dashboard'));
         }
 
-        if ($user->role === 'client') {
-            return redirect()->route('client.dashboard');
-        }
+        return redirect()->intended(route('client.dashboard'));
 
         Auth::logout();
 

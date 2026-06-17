@@ -12,11 +12,13 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Appointment;
 
 #[Fillable([
+    'id',
     'name',
     'email',
     'password',
     'role',
     'avatar',
+    'phone',
 ])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable

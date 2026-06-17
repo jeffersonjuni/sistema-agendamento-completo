@@ -20,7 +20,7 @@
 
         <div class="main-content">
 
-           @include('components.layouts.navbar')
+            @include('components.layouts.navbar')
 
             <main class="content">
                 @yield('content')
@@ -31,6 +31,8 @@
         </div>
 
     </div>
+
+    @stack('scripts')
 
 </body>
 

@@ -53,29 +53,39 @@ function updateThemeIcon() {
    TOGGLE PASSWORD
 ======================================== */
 
-document.querySelectorAll(".password-toggle").forEach((button) => {
-    button.addEventListener("click", () => {
-        const targetId = button.dataset.togglePassword;
+window.initializePasswordToggles = function () {
+    document.querySelectorAll(".password-toggle").forEach((button) => {
+        if (button.dataset.initialized) {
+            return;
+        }
 
-        if (!targetId) return;
+        button.dataset.initialized = "true";
 
-        const input = document.getElementById(targetId);
+        button.addEventListener("click", () => {
+            const targetId = button.dataset.togglePassword;
 
-        if (!input) return;
+            if (!targetId) return;
 
-        const isPassword = input.type === "password";
+            const input = document.getElementById(targetId);
 
-        input.type = isPassword ? "text" : "password";
+            if (!input) return;
 
-        button.innerHTML = isPassword
-            ? '<i data-lucide="eye-off"></i>'
-            : '<i data-lucide="eye"></i>';
+            const isPassword = input.type === "password";
 
-        createIcons({
-            icons,
+            input.type = isPassword ? "text" : "password";
+
+            button.innerHTML = isPassword
+                ? '<i data-lucide="eye-off"></i>'
+                : '<i data-lucide="eye"></i>';
+
+            createIcons({
+                icons,
+            });
         });
     });
-});
+}
+
+initializePasswordToggles();
 
 function enableLoading(formId, buttonId, loadingText) {
     const form = document.getElementById(formId);
@@ -120,3 +130,48 @@ logoutModal?.addEventListener("click", (event) => {
         logoutModal.classList.remove("active");
     }
 });
+
+/* ========================================
+   ALERTS
+======================================== */
+
+document.querySelectorAll('.alert-component')
+    .forEach(alert => {
+
+        const closeButton =
+            alert.querySelector('.alert-close');
+
+        closeButton?.addEventListener(
+            'click',
+            () => {
+
+                alert.classList.add(
+                    'alert-hide'
+                );
+
+                setTimeout(
+                    () => alert.remove(),
+                    300
+                );
+
+            }
+        );
+
+        setTimeout(() => {
+
+            if (!document.body.contains(alert)) {
+                return;
+            }
+
+            alert.classList.add(
+                'alert-hide'
+            );
+
+            setTimeout(
+                () => alert.remove(),
+                300
+            );
+
+        }, 5000);
+
+    });

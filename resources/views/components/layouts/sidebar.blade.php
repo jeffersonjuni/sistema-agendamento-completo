@@ -16,11 +16,27 @@
 
             <li>
 
-                <a href="{{ route('dashboard') }}">
+                <a href="{{ auth()->user()->role === 'admin'
+                    ? route('admin.dashboard')
+                    : route('client.dashboard') }}">
 
                     <i data-lucide="layout-dashboard" class="sidebar-icon"></i>
 
                     <span>Dashboard</span>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{{ auth()->user()->role === 'admin'
+                    ? route('admin.profile.index')
+                    : route('client.profile.index') }}">
+
+                    <i data-lucide="user-circle" class="sidebar-icon"></i>
+
+                    <span>Meu Perfil</span>
 
                 </a>
 

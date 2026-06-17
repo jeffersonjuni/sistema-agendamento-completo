@@ -4,11 +4,24 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    return auth()->check()
-        ? redirect()->route('dashboard')
-        : redirect()->route('login');
+    if (! auth()->check()) {
+        return redirect()->route('login');
+    }
 
+    return redirect()->route('dashboard');
 });
+
+Route::get('/dashboard', function () {
+
+    if (! auth()->check()) {
+        return redirect()->route('login');
+    }
+
+    return auth()->user()->role === 'admin'
+        ? redirect()->route('admin.dashboard')
+        : redirect()->route('client.dashboard');
+
+})->middleware('auth')->name('dashboard');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';

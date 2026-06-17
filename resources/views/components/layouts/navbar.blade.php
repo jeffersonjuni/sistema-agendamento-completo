@@ -7,7 +7,7 @@
         </button>
 
         <h1>
-            Dashboard
+            @yield('title', 'Sistema')
         </h1>
 
     </div>

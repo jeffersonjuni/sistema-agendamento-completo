@@ -20,6 +20,7 @@
 @import "./components/loader.css";
 @import "./components/label.css";
 @import "./components/form.css";
+@import "./components/alert.css";
 
 
 @import "./utilities/animations.css";

@@ -6,81 +6,79 @@
 
 @php
 
-$baseClasses = '
+    $baseClasses = '
 
-w-full
+    inline-flex
+    items-center
+    justify-center
 
-inline-flex
-items-center
-justify-center
+    px-4
+    py-3
 
-px-4
-py-3
+    rounded-xl
 
-rounded-xl
+    font-semibold
+    text-sm
 
-font-semibold
-text-sm
+    transition-all
+    duration-200
 
-transition-all
-duration-200
+    shadow-md
 
-shadow-md
+    disabled:opacity-50
+    disabled:cursor-not-allowed
 
-disabled:opacity-50
-disabled:cursor-not-allowed
+    cursor-pointer
 
-cursor-pointer
+    ';
 
-';
+    $variants = [
 
-$variants=[
+        'primary' => '
 
-'primary'=>'
+    bg-primary
+    text-primary-foreground
 
-bg-primary
-text-primary-foreground
+    hover:opacity-90
+    hover:scale-[1.01]
 
-hover:opacity-90
-hover:scale-[1.01]
+    ',
 
-',
+        'secondary' => '
 
-'secondary'=>'
+    bg-secondary
+    text-secondary-foreground
 
-bg-secondary
-text-secondary-foreground
+    hover:opacity-90
 
-hover:opacity-90
+    ',
 
-',
+        'danger' => '
 
-'danger'=>'
+    bg-destructive
+    text-destructive-foreground
 
-bg-destructive
-text-destructive-foreground
+    hover:opacity-90
 
-hover:opacity-90
+    '
 
-'
-
-];
+    ];
 
 @endphp
 
-<button
-type="{{ $type }}"
+ <button
+    type="{{ $type }}"
 {{ $attributes->merge([
-'class'=>$baseClasses.' '.$variants[$variant]
+    'class' => $baseClasses . ' ' . $variants[$variant]
 ]) }}
 @disabled($loading)
->
+    >
 
-@if($loading)
+    @if($loading)
 
-<span class="loader"></span>
+        <span class="loader"></span>
 
-@endif
+    @endif
 
 {{ $slot }}
 
