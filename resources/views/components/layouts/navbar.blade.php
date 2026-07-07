@@ -14,13 +14,20 @@
 
     <div class="navbar-actions">
 
-        <div class="navbar-user">
+        <a href="{{ auth()->user()->role === 'admin'
+    ? route('admin.profile.index')
+    : route('client.profile.index') }}" class="navbar-user">
+
+            <img src="{{ auth()->user()->avatar
+    ? asset('storage/' . auth()->user()->avatar)
+    : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
+                alt="{{ auth()->user()->name }}" class="navbar-avatar">
 
             <span>
                 {{ auth()->user()->name }}
             </span>
 
-        </div>
+        </a>
 
         <button class="theme-toggle" id="themeToggle">
             🌙
