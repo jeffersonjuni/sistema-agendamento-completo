@@ -6,13 +6,10 @@
 
 <div class="container-default">
 
-    <div class="page-header">
-        <h2>Dashboard Cliente</h2>
-
-        <p>
-            Bem-vindo ao painel do cliente.
-        </p>
-    </div>
+    <x-ui.page-header
+        title="Dashboard Cliente"
+        subtitle="Bem-vindo ao painel do cliente."
+    />
 
 </div>
 

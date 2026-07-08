@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
 Route::prefix('client')
+    ->name('client.')
     ->middleware([
         'auth',
         'role:client'
@@ -13,20 +14,23 @@ Route::prefix('client')
         Route::view(
             '/dashboard',
             'client.dashboard'
-        )->name('client.dashboard');
+        )->name('dashboard');
 
         Route::get(
             '/perfil',
             [ProfileController::class, 'index']
-        )->name('client.profile.index');
+        )->name('profile.index');
 
         Route::patch(
             '/perfil',
-            [ProfileController::class, 'updateProfile'
-        ])->name('client.profile.update');
+            [
+                ProfileController::class,
+                'updateProfile'
+            ]
+        )->name('profile.update');
 
         Route::patch(
             '/perfil/senha',
             [ProfileController::class, 'updatePassword']
-        )->name('client.profile.password');
+        )->name('profile.password');
     });

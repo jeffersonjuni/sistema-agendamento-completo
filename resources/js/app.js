@@ -1,5 +1,8 @@
 import Alpine from "alpinejs";
 import "./sidebar";
+import "./navbar";
+import "./sweetalert";
+import "./datatables";
 
 window.Alpine = Alpine;
 
@@ -106,30 +109,6 @@ enableLoading("loginForm", "loginButton", "Entrando...");
 enableLoading("registerForm", "registerButton", "Criando conta...");
 
 enableLoading("forgotForm", "forgotButton", "Enviando...");
-
-/* ========================================
-   LOGOUT MODAL
-======================================== */
-
-const logoutButton = document.getElementById("logoutButton");
-
-const logoutModal = document.getElementById("logoutModal");
-
-const cancelLogout = document.getElementById("cancelLogout");
-
-logoutButton?.addEventListener("click", () => {
-    logoutModal?.classList.add("active");
-});
-
-cancelLogout?.addEventListener("click", () => {
-    logoutModal?.classList.remove("active");
-});
-
-logoutModal?.addEventListener("click", (event) => {
-    if (event.target === logoutModal) {
-        logoutModal.classList.remove("active");
-    }
-});
 
 /* ========================================
    ALERTS

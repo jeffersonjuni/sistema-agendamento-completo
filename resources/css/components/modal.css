@@ -1,31 +1,27 @@
-.modal-overlay{
+/* ========================================
+   MODAL COMPONENT ALPINE
+======================================== */
+
+.modal-overlay {
 
     position:fixed;
+
     inset:0;
 
     background:rgba(0,0,0,.45);
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
-    opacity:0;
-    visibility:hidden;
-
-    transition:.25s;
-
-    z-index:2000;
+    z-index:9999;
 
 }
 
-.modal-overlay.active{
 
-    opacity:1;
-    visibility:visible;
-
-}
-
-.modal{
+.modal {
 
     background:var(--card);
 
@@ -36,19 +32,57 @@
     border-radius:var(--radius);
 
     width:100%;
-    max-width:400px;
+
+    max-width:500px;
 
     box-shadow:var(--shadow-lg);
 
 }
 
-.modal h3{
+
+
+/* ========================================
+   LEGACY LOGOUT MODAL
+======================================== */
+
+
+#logoutModal {
+
+    opacity:0;
+
+    visibility:hidden;
+
+    pointer-events:none;
+
+    transition:.25s;
+
+}
+
+
+#logoutModal.active {
+
+    opacity:1;
+
+    visibility:visible;
+
+    pointer-events:auto;
+
+}
+
+
+
+.modal h3 {
+
+    font-size:20px;
+
+    font-weight:700;
 
     margin-bottom:12px;
 
 }
 
-.modal p{
+
+.modal p {
 
     color:var(--muted-foreground);
 
@@ -56,10 +90,22 @@
 
 }
 
-.modal-actions{
+
+.modal-actions {
 
     display:flex;
+
     justify-content:flex-end;
+
     gap:12px;
+
+    margin-top:24px;
+
+}
+
+
+[x-cloak] {
+
+    display:none !important;
 
 }

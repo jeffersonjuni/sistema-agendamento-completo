@@ -1,53 +1,49 @@
 @props([
-    'name',
+    'title' => null,
 ])
 
-<div
-    x-data="{ open: false }"
->
 
-    <div @click="open = true">
+<div x-data="{ open:false }">
+
+
+    <div @click="open=true">
+
         {{ $trigger }}
+
     </div>
 
+
+
     <div
+        x-cloak
         x-show="open"
         x-transition
-        style="
-            position: fixed;
-            inset: 0;
-
-            background: rgba(0,0,0,0.5);
-
-            display:flex;
-            align-items:center;
-            justify-content:center;
-
-            z-index:9999;
-        "
+        class="modal-overlay"
     >
 
+
         <div
-            class="card-default"
-            style="
-                width:100%;
-                max-width:500px;
-            "
+            class="modal"
+            @click.outside="open=false"
         >
+
+
+            @if($title)
+
+                <h3>
+                    {{ $title }}
+                </h3>
+
+            @endif
+
 
             {{ $slot }}
 
-            <div style="margin-top:24px;">
-                <x-ui.button
-                    variant="secondary"
-                    @click="open = false"
-                >
-                    Fechar
-                </x-ui.button>
-            </div>
 
         </div>
 
+
     </div>
+
 
 </div>

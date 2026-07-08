@@ -2,6 +2,7 @@
     'type' => 'button',
     'variant' => 'primary',
     'loading' => false,
+    'href' => null,
 ])
 
 @php
@@ -66,20 +67,37 @@
 
 @endphp
 
- <button
-    type="{{ $type }}"
-{{ $attributes->merge([
-    'class' => $baseClasses . ' ' . $variants[$variant]
-]) }}
-@disabled($loading)
+ @if($href)
+
+    <a
+        href="{{ $href }}"
+        {{ $attributes->merge([
+            'class' => $baseClasses . ' ' . $variants[$variant]
+        ]) }}
     >
 
-    @if($loading)
+        {{ $slot }}
 
-        <span class="loader"></span>
+    </a>
 
-    @endif
+@else
 
-{{ $slot }}
+    <button
+        type="{{ $type }}"
+        {{ $attributes->merge([
+            'class' => $baseClasses . ' ' . $variants[$variant]
+        ]) }}
+        @disabled($loading)
+    >
 
-</button>
+        @if($loading)
+
+            <span class="loader"></span>
+
+        @endif
+
+        {{ $slot }}
+
+    </button>
+
+@endif

@@ -32,6 +32,38 @@
 
     </div>
 
+    @if(session('success'))
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                showAlert(
+                    'success',
+                    "{{ session('success') }}"
+                );
+
+            });
+        </script>
+
+    @endif
+
+
+
+    @if(session('error'))
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                showAlert(
+                    'error',
+                    "{{ session('error') }}"
+                );
+
+            });
+        </script>
+
+    @endif
+
     @stack('scripts')
 
 </body>

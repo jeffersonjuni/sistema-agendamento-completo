@@ -17,6 +17,10 @@ class Service extends Model
         'status',
     ];
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);

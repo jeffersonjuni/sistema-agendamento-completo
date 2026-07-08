@@ -21,6 +21,8 @@
 @import "./components/label.css";
 @import "./components/form.css";
 @import "./components/alert.css";
+@import "./components/page-header.css";
+@import "./components/datatables.css";
 
 
 @import "./utilities/animations.css";

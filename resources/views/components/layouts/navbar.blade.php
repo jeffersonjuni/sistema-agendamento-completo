@@ -20,8 +20,8 @@
 
             <img src="{{ auth()->user()->avatar
     ? asset('storage/' . auth()->user()->avatar)
-    : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}"
-                alt="{{ auth()->user()->name }}" class="navbar-avatar">
+    : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->name) }}" alt="{{ auth()->user()->name }}"
+                class="navbar-avatar">
 
             <span>
                 {{ auth()->user()->name }}
@@ -33,14 +33,9 @@
             🌙
         </button>
 
-        <form method="POST" action="{{ route('logout') }}">
-
-            @csrf
-
-            <button type="button" class="btn btn-danger" id="logoutButton">
-                Sair
-            </button>
-        </form>
+        <button type="button" class="btn btn-danger" id="logoutButton">
+            Sair
+        </button>
 
     </div>
 

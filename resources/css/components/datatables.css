@@ -1,0 +1,200 @@
+/* ========================================
+   DATATABLES
+======================================== */
+
+.dt-container {
+    width: 100%;
+    color: var(--foreground);
+}
+
+/* Topo */
+
+.dt-layout-row:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+/* Rodapé */
+
+.dt-layout-row:last-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+/* Pesquisa */
+
+.dt-search {
+    margin-left: auto;
+}
+
+.dt-search label {
+    color: var(--muted-foreground);
+    font-size: 14px;
+}
+
+.dt-search input {
+    width: 280px;
+
+    padding: 10px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    background: var(--background);
+
+    color: var(--foreground);
+
+    transition: .2s;
+}
+
+.dt-search input:focus {
+    outline: none;
+
+    border-color: var(--primary);
+
+    box-shadow: 0 0 0 3px rgba(59,130,246,.15);
+}
+
+/* Select */
+
+.dt-length label {
+    color: var(--muted-foreground);
+}
+
+.dt-length select {
+
+    padding: 10px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    background: var(--background);
+
+    color: var(--foreground);
+
+    cursor: pointer;
+}
+
+/* Informação */
+
+.dt-info {
+    color: var(--muted-foreground);
+    font-size: 14px;
+}
+
+/* Paginação */
+
+.dt-paging {
+    display: flex;
+    gap: 8px;
+}
+
+.dt-paging button {
+
+    min-width: 38px;
+
+    height: 38px;
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    background: var(--card);
+
+    color: var(--foreground);
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+.dt-paging button:hover {
+
+    background: var(--primary);
+
+    color: white;
+
+    border-color: var(--primary);
+}
+
+.dt-paging button.current {
+
+    background: var(--primary) !important;
+
+    color: white !important;
+
+    border-color: var(--primary);
+}
+
+/* Desabilitado */
+
+.dt-paging button.disabled {
+
+    opacity: .45;
+
+    cursor: not-allowed;
+}
+
+/* Ordenação */
+
+table.dataTable thead th {
+
+    border-bottom: 1px solid var(--border);
+}
+
+/* Linhas */
+
+table.dataTable tbody tr:hover {
+
+    background: var(--muted);
+}
+
+/* Nenhum registro */
+
+.dt-empty {
+
+    text-align: center;
+
+    padding: 30px;
+}
+
+/* Responsivo */
+
+@media (max-width:768px){
+
+    .dt-layout-row:first-child,
+    .dt-layout-row:last-child{
+
+        flex-direction: column;
+
+        align-items: stretch;
+    }
+
+    .dt-search{
+
+        margin-left: 0;
+    }
+
+    .dt-search input,
+    .dt-length select{
+
+        width: 100%;
+    }
+
+    .dt-paging{
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+    }
+}

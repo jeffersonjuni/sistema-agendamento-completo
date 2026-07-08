@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\ServiceController;
 
 Route::prefix('admin')
+    ->name('admin.')
     ->middleware([
         'auth',
         'role:admin'
@@ -13,25 +15,33 @@ Route::prefix('admin')
         Route::view(
             '/dashboard',
             'admin.dashboard'
-        )->name('admin.dashboard');
+        )->name('dashboard');
 
         Route::view(
             '/components',
             'admin.components.index'
-        )->name('admin.components');
+        )->name('components');
 
         Route::get(
             '/perfil',
             [ProfileController::class, 'index']
-        )->name('admin.profile.index');
+        )->name('profile.index');
 
         Route::patch(
             '/perfil',
             [ProfileController::class, 'updateProfile']
-        )->name('admin.profile.update');
+        )->name('profile.update');
 
         Route::patch(
             '/perfil/senha',
             [ProfileController::class, 'updatePassword']
-        )->name('admin.profile.password');
+        )->name('profile.password');
+
+        Route::patch(
+            'services/{service}/toggle-status',
+            [ServiceController::class, 'toggleStatus']
+        )->name('services.toggle-status');
+
+
+        Route::resource('services', ServiceController::class);
     });
