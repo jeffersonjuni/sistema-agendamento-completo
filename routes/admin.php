@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\AppointmentController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -44,4 +45,32 @@ Route::prefix('admin')
 
 
         Route::resource('services', ServiceController::class);
+
+        Route::resource(
+            'appointments',
+            AppointmentController::class
+        )
+            ->only([
+                'index',
+            ]);
+
+
+        Route::patch(
+            'appointments/{appointment}/status',
+            [
+                AppointmentController::class,
+                'updateStatus'
+            ]
+        )
+            ->name('appointments.update-status');
+
+
+        Route::patch(
+            'appointments/{appointment}/cancel',
+            [
+                AppointmentController::class,
+                'cancel'
+            ]
+        )
+            ->name('appointments.cancel');
     });

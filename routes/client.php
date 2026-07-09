@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Client\AppointmentController;
 
 Route::prefix('client')
     ->name('client.')
@@ -33,4 +34,22 @@ Route::prefix('client')
             '/perfil/senha',
             [ProfileController::class, 'updatePassword']
         )->name('profile.password');
+
+        Route::resource(
+            'appointments',
+            AppointmentController::class
+        )->only([
+                    'index',
+                    'create',
+                    'store',
+                ]);
+
+        Route::patch(
+            'appointments/{appointment}/cancel',
+            [
+                AppointmentController::class,
+                'cancel'
+            ]
+        )
+            ->name('appointments.cancel');
     });

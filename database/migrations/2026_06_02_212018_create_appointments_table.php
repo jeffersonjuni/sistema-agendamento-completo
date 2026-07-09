@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -22,10 +23,23 @@ return new class extends Migration {
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->dateTime('appointment_date');
+            // Data do agendamento
+            $table->date('appointment_date');
 
+            // Horário do agendamento
+            $table->time('appointment_time');
+
+            /*
+            |--------------------------------------------------------------------------
+            | Duração do serviço no momento do agendamento.
+            | Mantém o histórico mesmo que a duração do serviço seja alterada futuramente.
+            |--------------------------------------------------------------------------
+            */
+            $table->unsignedInteger('duration');
+
+            // Status do agendamento
             $table->string('status')
-                ->default('scheduled');
+                ->default('pending');
 
             $table->softDeletes();
 
