@@ -247,9 +247,9 @@ class ScheduleValidator
 
 
         $appointments = Appointment::where(
-                'appointment_date',
-                $data['appointment_date']
-            )
+            'appointment_date',
+            $data['appointment_date']
+        )
             ->whereIn(
                 'status',
                 [
@@ -265,10 +265,9 @@ class ScheduleValidator
 
 
             $existingStart = Carbon::parse(
-                $appointment->appointment_date
+                $appointment->appointment_date->format('Y-m-d')
                 . ' '
-                .
-                $appointment->appointment_time
+                . $appointment->appointment_time
             );
 
 
@@ -306,9 +305,9 @@ class ScheduleValidator
     {
 
         $exists = Appointment::where(
-                'appointment_date',
-                $data['appointment_date']
-            )
+            'appointment_date',
+            $data['appointment_date']
+        )
             ->where(
                 'appointment_time',
                 $data['appointment_time']

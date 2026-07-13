@@ -2,41 +2,41 @@ import DataTable from "datatables.net";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    const table = document.querySelector(".table-default");
+    document.querySelectorAll(".datatable").forEach((table) => {
 
-    if (!table) return;
+        new DataTable(table, {
 
-    new DataTable(table, {
+            responsive: true,
 
-        responsive: true,
+            pageLength: 10,
 
-        pageLength: 10,
+            lengthMenu: [10, 25, 50],
 
-        lengthMenu: [10, 25, 50],
+            language: {
 
-        language: {
+                search: "",
 
-            search: "",
+                searchPlaceholder: "Pesquisar...",
 
-            searchPlaceholder: "Pesquisar serviço...",
+                lengthMenu: "Mostrar _MENU_ registros",
 
-            lengthMenu: "Mostrar _MENU_ registros",
+                info: "Mostrando _START_ até _END_ de _TOTAL_ registros",
 
-            info: "Mostrando _START_ até _END_ de _TOTAL_ registros",
+                infoEmpty: "Nenhum registro encontrado",
 
-            infoEmpty: "Nenhum registro encontrado",
+                zeroRecords: "Nenhum registro encontrado",
 
-            zeroRecords: "Nenhum serviço encontrado",
+                paginate: {
 
-            paginate: {
+                    previous: "←",
 
-                previous: "←",
+                    next: "→",
 
-                next: "→",
+                },
 
             },
 
-        },
+        });
 
     });
 

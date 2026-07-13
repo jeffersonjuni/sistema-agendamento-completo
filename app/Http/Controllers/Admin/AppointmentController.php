@@ -21,9 +21,14 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments =
-            $this->appointmentService
-                ->getAppointments();
+        $appointments = $this->appointmentService
+            ->getAppointments(
+                request()->only([
+                    'status',
+                    'date',
+                    'search',
+                ])
+            );
 
 
         return view(

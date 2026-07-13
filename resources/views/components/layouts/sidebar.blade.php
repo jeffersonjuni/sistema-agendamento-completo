@@ -46,6 +46,54 @@
 
             @endif
 
+            @if(auth()->user()->role === 'admin')
+
+                <li>
+
+                    <a href="{{ route('admin.appointments.index') }}"
+                        class="{{ request()->routeIs('admin.appointments.*') ? 'active' : '' }}"
+                        data-tooltip="Agendamentos">
+
+
+                        <i data-lucide="calendar-check" class="sidebar-icon">
+                        </i>
+
+
+                        <span>
+                            Agendamentos
+                        </span>
+
+
+                    </a>
+
+                </li>
+
+            @endif
+
+            @if(auth()->user()->role === 'client')
+
+                <li>
+
+                    <a href="{{ route('client.appointments.index') }}"
+                        class="{{ request()->routeIs('client.appointments.*') ? 'active' : '' }}"
+                        data-tooltip="Meus Agendamentos">
+
+
+                        <i data-lucide="calendar-check" class="sidebar-icon">
+                        </i>
+
+
+                        <span>
+                            Meus Agendamentos
+                        </span>
+
+
+                    </a>
+
+                </li>
+
+            @endif
+
             <li>
 
                 <a href="{{ auth()->user()->role === 'admin'

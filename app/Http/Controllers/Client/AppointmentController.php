@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Client;
 
 use App\Models\Appointment;
+use App\Models\Service;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAppointmentRequest;
 use App\Services\AppointmentService;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -17,10 +20,36 @@ class AppointmentController extends Controller
     /**
      * Meus agendamentos
      */
-    public function index()
+    /**
+     * Meus agendamentos
+     */
+    public function index(Request $request)
     {
-        $appointments = $this->appointmentService
-            ->getUserAppointments(auth()->id());
+        $query = Appointment::with('service')
+            ->where('user_id', auth()->id());
+
+        if ($request->filled('status')) {
+
+            $query->where(
+                'status',
+                $request->status
+            );
+
+        }
+
+        if ($request->filled('date')) {
+
+            $query->whereDate(
+                'appointment_date',
+                $request->date
+            );
+
+        }
+
+        $appointments = $query
+            ->orderByDesc('appointment_date')
+            ->orderByDesc('appointment_time')
+            ->get();
 
         return view(
             'client.appointments.index',
@@ -33,7 +62,25 @@ class AppointmentController extends Controller
      */
     public function create()
     {
-        return view('client.appointments.create');
+        $services = Service::where(
+            'status',
+            true
+        )
+            ->orderBy('name')
+            ->get();
+
+
+        $minDate = Carbon::today()
+            ->format('Y-m-d');
+
+
+        return view(
+            'client.appointments.create',
+            compact(
+                'services',
+                'minDate'
+            )
+        );
     }
 
     /**

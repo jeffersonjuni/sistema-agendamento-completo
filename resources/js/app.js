@@ -3,6 +3,7 @@ import "./sidebar";
 import "./navbar";
 import "./sweetalert";
 import "./datatables";
+import "./appointments/create.js";
 
 window.Alpine = Alpine;
 

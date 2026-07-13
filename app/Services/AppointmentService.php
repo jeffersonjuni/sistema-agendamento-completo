@@ -18,14 +18,77 @@ class AppointmentService
     /**
      * Retorna todos os agendamentos (Admin)
      */
-    public function getAppointments()
+    public function getAppointments(array $filters = [])
     {
-        return Appointment::with([
+        $query = Appointment::with([
             'user',
             'service',
-        ])
+        ]);
+
+
+
+        if (!empty($filters['status'])) {
+
+            $query->where(
+                'status',
+                $filters['status']
+            );
+
+        }
+
+
+
+        if (!empty($filters['date'])) {
+
+            $query->whereDate(
+                'appointment_date',
+                $filters['date']
+            );
+
+        }
+
+
+
+        if (!empty($filters['search'])) {
+
+            $search = $filters['search'];
+
+
+            $query->whereHas(
+                'user',
+                function ($q) use ($search) {
+
+                    $q->where(
+                        'name',
+                        'like',
+                        "%{$search}%"
+                    );
+
+                }
+            )
+                ->orWhereHas(
+                    'service',
+                    function ($q) use ($search) {
+
+                        $q->where(
+                            'name',
+                            'like',
+                            "%{$search}%"
+                        );
+
+                    }
+                );
+
+        }
+
+
+
+        return $query
+
             ->orderBy('appointment_date')
+
             ->orderBy('appointment_time')
+
             ->get();
     }
 

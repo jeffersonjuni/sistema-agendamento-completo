@@ -23,6 +23,7 @@
 @import "./components/alert.css";
 @import "./components/page-header.css";
 @import "./components/datatables.css";
+@import "./components/service-card.css";
 
 
 @import "./utilities/animations.css";
