@@ -9,12 +9,42 @@ use App\Http\Requests\StoreAppointmentRequest;
 use App\Services\AppointmentService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Schedule;
 
 class AppointmentController extends Controller
 {
     public function __construct(
         private AppointmentService $appointmentService
     ) {
+    }
+
+    public function schedules()
+{
+    return response()->json(
+
+        Schedule::select(
+            'weekday',
+            'is_open',
+            'start_time',
+            'end_time',
+            'break_start',
+            'break_end'
+        )
+        ->orderBy('weekday')
+        ->get()
+
+    );
+}
+
+
+    public function availableTimes(Request $request)
+    {
+        $times = $this->appointmentService->getAvailableTimes(
+            $request->date,
+            $request->service
+        );
+
+        return response()->json($times);
     }
 
     /**
@@ -60,6 +90,9 @@ class AppointmentController extends Controller
     /**
      * Formulário de novo agendamento
      */
+    /**
+     * Formulário de novo agendamento
+     */
     public function create()
     {
         $services = Service::where(
@@ -69,20 +102,22 @@ class AppointmentController extends Controller
             ->orderBy('name')
             ->get();
 
+        $schedules = Schedule::orderBy(
+            'weekday'
+        )->get();
 
         $minDate = Carbon::today()
             ->format('Y-m-d');
-
 
         return view(
             'client.appointments.create',
             compact(
                 'services',
+                'schedules',
                 'minDate'
             )
         );
     }
-
     /**
      * Salvar agendamento
      */

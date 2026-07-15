@@ -44,6 +44,14 @@ Route::prefix('client')
                     'store',
                 ]);
 
+        Route::get(
+            'appointments/available-times',
+            [
+                AppointmentController::class,
+                'availableTimes'
+            ]
+        )->name('appointments.available-times');
+
         Route::patch(
             'appointments/{appointment}/cancel',
             [
@@ -52,4 +60,14 @@ Route::prefix('client')
             ]
         )
             ->name('appointments.cancel');
+
+
+        Route::get(
+            'appointments/schedules',
+            [
+                AppointmentController::class,
+                'schedules'
+            ]
+        )->name('appointments.schedules');
+
     });

@@ -1,18 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar");
-
     const dateInput = document.getElementById("appointment_date");
-
     const timeContainer = document.getElementById("time-slots");
-
     const timeInput = document.getElementById("appointment_time");
 
     const summaryService = document.getElementById("summary-service");
-
     const summaryDate = document.getElementById("summary-date");
-
     const summaryTime = document.getElementById("summary-time");
-
     const summaryDuration = document.getElementById("summary-duration");
 
     if (!calendar || !dateInput || !timeContainer || !timeInput) {
@@ -20,11 +14,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let currentDate = new Date();
-
     let selectedDate = null;
 
-    const today = new Date();
+    let availableWeekdays = [];
 
+    const today = new Date();
     today.setHours(0, 0, 0, 0);
 
     function updateSummary() {
@@ -35,29 +29,36 @@ document.addEventListener("DOMContentLoaded", () => {
         if (selectedService) {
             const card = selectedService.closest("label");
 
-            const name = card.querySelector("h3")?.textContent;
+            summaryService.textContent =
+                card.querySelector("h3")?.textContent ?? "-";
 
-            const duration = card.querySelector("p:last-child")?.textContent;
-
-            summaryService.textContent = name;
-
-            summaryDuration.textContent = duration;
+            summaryDuration.textContent =
+                card.querySelector("p:last-child")?.textContent ?? "-";
         }
 
-        if (selectedDate) {
-            summaryDate.textContent = selectedDate.toLocaleDateString("pt-BR");
-        }
+        summaryDate.textContent = selectedDate
+            ? selectedDate.toLocaleDateString("pt-BR")
+            : "Nenhuma data selecionada.";
 
-        if (timeInput.value) {
-            summaryTime.textContent = timeInput.value;
-        }
+        summaryTime.textContent = timeInput.value
+            ? timeInput.value
+            : "Nenhum horário selecionado.";
+    }
+
+    async function loadSchedules() {
+        const response = await fetch("/client/appointments/schedules");
+
+        const schedules = await response.json();
+
+        availableWeekdays = schedules
+            .filter((schedule) => schedule.is_open)
+            .map((schedule) => schedule.weekday);
     }
 
     function renderCalendar() {
         calendar.innerHTML = "";
 
         const year = currentDate.getFullYear();
-
         const month = currentDate.getMonth();
 
         const firstDay = new Date(year, month, 1).getDay();
@@ -66,12 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const header = document.createElement("div");
 
-        header.className = `
-            flex
-            items-center
-            justify-between
-            mb-6
-        `;
+        header.className = "flex items-center justify-between mb-6";
 
         header.innerHTML = `
 
@@ -83,14 +79,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 ‹
             </button>
 
-
             <h3 class="font-semibold capitalize">
                 ${currentDate.toLocaleDateString("pt-BR", {
                     month: "long",
                     year: "numeric",
                 })}
             </h3>
-
 
             <button
                 type="button"
@@ -106,19 +100,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const grid = document.createElement("div");
 
-        grid.className = `
-            calendar-grid
-        `;
+        grid.className = "calendar-grid";
 
         ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"].forEach((day) => {
             const el = document.createElement("div");
 
-            el.className = `
-                text-sm
-                font-semibold
-                text-[var(--text-secondary)]
-                p-2
-            `;
+            el.className =
+                "text-sm font-semibold text-[var(--text-secondary)] p-2";
 
             el.textContent = day;
 
@@ -150,43 +138,46 @@ document.addEventListener("DOMContentLoaded", () => {
                 hover:bg-[var(--surface-secondary)]
             `;
 
-            /*
-             * Data passada
-             */
-
             if (date < today) {
                 button.disabled = true;
 
                 button.classList.add("opacity-40", "cursor-not-allowed");
             }
 
-            /*
-             * Data selecionada
-             */
+            const weekday = date.getDay() === 0 ? 7 : date.getDay();
+
+            if (!availableWeekdays.includes(weekday)) {
+                button.disabled = true;
+
+                button.title = "Dia sem expediente";
+
+                button.classList.add("opacity-40", "cursor-not-allowed");
+            }
 
             if (selectedDate && formatDate(date) === formatDate(selectedDate)) {
                 button.classList.add(
                     "bg-[var(--primary)]",
-
                     "text-white",
-
                     "ring-2",
-
                     "ring-[var(--primary)]",
                 );
             }
 
-            button.addEventListener("click", () => {
+            button.onclick = () => {
+                if (button.disabled) {
+                    return;
+                }
+
                 selectedDate = date;
 
                 dateInput.value = formatDate(date);
 
-                updateSummary();
-
                 renderCalendar();
 
                 renderTimes();
-            });
+
+                updateSummary();
+            };
 
             grid.appendChild(button);
         }
@@ -194,6 +185,22 @@ document.addEventListener("DOMContentLoaded", () => {
         calendar.appendChild(grid);
 
         document.getElementById("prev-month").onclick = () => {
+            const currentMonth = new Date(
+                today.getFullYear(),
+                today.getMonth(),
+                1,
+            );
+
+            const selectedMonth = new Date(
+                currentDate.getFullYear(),
+                currentDate.getMonth(),
+                1,
+            );
+
+            if (selectedMonth <= currentMonth) {
+                return;
+            }
+
             currentDate.setMonth(currentDate.getMonth() - 1);
 
             renderCalendar();
@@ -206,31 +213,74 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
-    function renderTimes() {
-        timeContainer.innerHTML = "";
+    async function renderTimes() {
+        timeContainer.innerHTML = `
+
+        <p class="text-sm text-[var(--text-secondary)]">
+            Carregando horários disponíveis...
+        </p>
+
+    `;
 
         timeInput.value = "";
 
-        const times = [
-            "08:00",
-            "08:30",
-            "09:00",
-            "09:30",
-            "10:00",
-            "10:30",
-            "11:00",
-            "11:30",
-            "13:00",
-            "13:30",
-            "14:00",
-            "14:30",
-            "15:00",
-            "15:30",
-            "16:00",
-            "16:30",
-            "17:00",
-            "17:30",
-        ];
+        const service = document.querySelector(
+            'input[name="service_id"]:checked',
+        );
+
+        if (!service) {
+            timeContainer.innerHTML = `
+                <p class="text-sm text-[var(--text-secondary)]">
+                    Escolha um serviço primeiro.
+                </p>
+            `;
+
+            return;
+        }
+
+        let times = [];
+
+        try {
+            const response = await fetch(
+                `/client/appointments/available-times?date=${dateInput.value}&service=${service.value}`,
+            );
+
+            if (!response.ok) {
+                throw new Error("Erro ao buscar horários.");
+            }
+
+            times = await response.json();
+        } catch (error) {
+            timeContainer.innerHTML = `
+
+        <p class="text-sm text-red-500">
+
+            Não foi possível carregar os horários.
+
+        </p>
+
+    `;
+
+            return;
+        }
+
+        if (times.length === 0) {
+            timeContainer.innerHTML = `
+
+        <p class="text-sm text-[var(--text-secondary)]">
+
+            Nenhum horário disponível para esta data.
+
+            <br>
+
+            Escolha outro dia.
+
+        </p>
+
+    `;
+
+            return;
+        }
 
         times.forEach((time) => {
             const button = document.createElement("button");
@@ -239,19 +289,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
             button.textContent = time;
 
-            button.className = "btn btn-secondary";
+            button.className = `
+
+    btn
+
+    btn-secondary
+
+    transition
+
+    hover:scale-105
+
+`;
 
             button.onclick = () => {
-                timeInput.value = time;
-                updateSummary();
-
                 document
                     .querySelectorAll("#time-slots button")
-                    .forEach((btn) => {
-                        btn.classList.remove("btn-primary");
-                    });
+                    .forEach((btn) => btn.classList.remove("btn-primary"));
 
                 button.classList.add("btn-primary");
+
+                timeInput.value = time;
+
+                updateSummary();
             };
 
             timeContainer.appendChild(button);
@@ -263,8 +322,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.querySelectorAll('input[name="service_id"]').forEach((input) => {
-        input.addEventListener("change", updateSummary);
+        input.addEventListener("change", () => {
+            updateSummary();
+
+            if (selectedDate) {
+                renderTimes();
+            }
+        });
     });
 
-    renderCalendar();
+    (async () => {
+        await loadSchedules();
+
+        renderCalendar();
+
+        updateSummary();
+    })();
 });

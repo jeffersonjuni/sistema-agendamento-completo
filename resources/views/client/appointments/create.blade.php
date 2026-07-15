@@ -78,12 +78,12 @@
                         </x-ui.label>
 
                         <div id="calendar" class="
-                                    mt-3
-                                    border
-                                    rounded-xl
-                                    p-5
-                                    w-full
-                                "></div>
+                                                mt-3
+                                                border
+                                                rounded-xl
+                                                p-5
+                                                w-full
+                                            "></div>
 
                         <input type="hidden" name="appointment_date" id="appointment_date"
                             value="{{ old('appointment_date') }}" required>
@@ -97,12 +97,12 @@
                         </x-ui.label>
 
                         <div id="time-slots" class="
-                                    grid
-                                    grid-cols-3
-                                    md:grid-cols-6
-                                    gap-3
-                                    mt-3
-                                ">
+                                                grid
+                                                grid-cols-3
+                                                md:grid-cols-6
+                                                gap-3
+                                                mt-3
+                                            ">
 
                             <p class="text-sm text-[var(--text-secondary)]">
 
@@ -204,7 +204,7 @@
 
                 </a>
 
-                <x-ui.button type="submit">
+                <x-ui.button type="submit" id="submit-button">
 
                     Confirmar Agendamento
 
@@ -215,5 +215,83 @@
         </form>
 
     </div>
+
+    <script>
+
+        window.schedules = @json($schedules);
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            () => {
+
+                const form =
+                    document.querySelector(
+                        'form[action="{{ route('client.appointments.store') }}"]'
+                    );
+
+
+                const button =
+                    document.getElementById(
+                        "submit-button"
+                    );
+
+
+
+                form.addEventListener(
+                    "submit",
+                    (e) => {
+
+
+                        const service =
+                            document.querySelector(
+                                'input[name="service_id"]:checked'
+                            );
+
+
+                        const date =
+                            document.getElementById(
+                                "appointment_date"
+                            ).value;
+
+
+                        const time =
+                            document.getElementById(
+                                "appointment_time"
+                            ).value;
+
+
+
+                        if (
+                            !service ||
+                            !date ||
+                            !time
+                        ) {
+
+                            e.preventDefault();
+
+                            alert(
+                                "Selecione serviço, data e horário antes de confirmar."
+                            );
+
+                            return;
+
+                        }
+
+
+                        button.disabled = true;
+
+                        button.innerText =
+                            "Confirmando...";
+
+
+                    });
+
+
+            });
+
+    </script>
+
+    @vite('resources/js/client/appointments/create.js')
 
 @endsection

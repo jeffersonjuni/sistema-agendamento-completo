@@ -3,82 +3,88 @@
 namespace App\Services;
 
 use App\Models\Appointment;
+use App\Models\Schedule;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
-
+use App\Enums\AppointmentStatus;
 
 class ScheduleValidator
 {
     /**
-     * Horário de início do expediente.
+     * Obtém o expediente do dia da semana.
      */
-    private const BUSINESS_START = '08:00';
+    private function getSchedule(string $date): Schedule
+    {
+        $weekday = Carbon::parse($date)->isoWeekday();
+
+        return Schedule::where(
+            'weekday',
+            $weekday
+        )->firstOrFail();
+    }
 
 
     /**
-     * Horário de encerramento do expediente.
+     * Normaliza horário vindo do banco.
+     *
+     * Aceita:
+     * 08:00
+     * 08:00:00
+     * 2026-07-15 08:00:00
      */
-    private const BUSINESS_END = '18:00';
+    private function buildDateTime(
+        string $date,
+        string $time
+    ): Carbon {
+
+        $formattedTime = Carbon::parse($time)
+            ->format('H:i:s');
+
+
+        return Carbon::parse(
+            "{$date} {$formattedTime}"
+        );
+    }
 
 
     /**
-     * Início do intervalo.
-     */
-    private const BREAK_START = '12:00';
-
-
-    /**
-     * Fim do intervalo.
-     */
-    private const BREAK_END = '13:00';
-
-
-
-    /**
-     * Executa todas as validações da agenda.
+     * Executa todas validações.
      */
     public function validate(
         array $data,
         Service $service
     ): void {
 
-        /**
-         * 1 - Verifica datas passadas
-         */
+
         $this->validatePastDate($data);
 
 
-        /**
-         * 2 - Verifica expediente
-         */
+        $schedule = $this->getSchedule(
+            $data['appointment_date']
+        );
+
+
         $this->validateBusinessHours(
             $data,
-            $service
+            $service,
+            $schedule
         );
 
 
-        /**
-         * 3 - Verifica intervalo
-         */
         $this->validateBreakTime(
             $data,
-            $service
+            $service,
+            $schedule
         );
 
 
-        /**
-         * 4 - Verifica conflitos
-         */
         $this->validateConflict(
             $data,
             $service
         );
 
 
-        /**
-         * 5 - Verifica horário duplicado
-         */
         $this->validateDuplicate($data);
 
     }
@@ -86,19 +92,18 @@ class ScheduleValidator
 
 
     /**
-     * Impede agendamentos em datas ou horários passados.
+     * Impede datas passadas.
      */
     private function validatePastDate(array $data): void
     {
-        $appointmentDateTime = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
+
+        $dateTime = $this->buildDateTime(
+            $data['appointment_date'],
             $data['appointment_time']
         );
 
 
-        if ($appointmentDateTime->isPast()) {
+        if ($dateTime->isPast()) {
 
             throw ValidationException::withMessages([
                 'appointment_date' =>
@@ -106,22 +111,33 @@ class ScheduleValidator
             ]);
 
         }
+
     }
 
 
 
     /**
-     * Valida expediente considerando duração.
+     * Valida horário comercial.
      */
     private function validateBusinessHours(
         array $data,
-        Service $service
+        Service $service,
+        Schedule $schedule
     ): void {
 
-        $start = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
+
+        if (!$schedule->is_open) {
+
+            throw ValidationException::withMessages([
+                'appointment_date' =>
+                    'Este dia não possui expediente.',
+            ]);
+
+        }
+
+
+        $start = $this->buildDateTime(
+            $data['appointment_date'],
             $data['appointment_time']
         );
 
@@ -132,19 +148,15 @@ class ScheduleValidator
             );
 
 
-        $businessStart = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
-            self::BUSINESS_START
+        $businessStart = $this->buildDateTime(
+            $data['appointment_date'],
+            $schedule->start_time
         );
 
 
-        $businessEnd = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
-            self::BUSINESS_END
+        $businessEnd = $this->buildDateTime(
+            $data['appointment_date'],
+            $schedule->end_time
         );
 
 
@@ -165,20 +177,28 @@ class ScheduleValidator
 
 
 
-
     /**
-     * Valida intervalo considerando duração completa.
+     * Valida intervalo.
      */
     private function validateBreakTime(
         array $data,
-        Service $service
+        Service $service,
+        Schedule $schedule
     ): void {
 
 
-        $start = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
+        if (
+            !$schedule->break_start
+            ||
+            !$schedule->break_end
+        ) {
+            return;
+        }
+
+
+
+        $start = $this->buildDateTime(
+            $data['appointment_date'],
             $data['appointment_time']
         );
 
@@ -189,20 +209,17 @@ class ScheduleValidator
             );
 
 
-        $breakStart = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
-            self::BREAK_START
+        $breakStart = $this->buildDateTime(
+            $data['appointment_date'],
+            $schedule->break_start
         );
 
 
-        $breakEnd = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
-            self::BREAK_END
+        $breakEnd = $this->buildDateTime(
+            $data['appointment_date'],
+            $schedule->break_end
         );
+
 
 
         if (
@@ -213,7 +230,7 @@ class ScheduleValidator
 
             throw ValidationException::withMessages([
                 'appointment_time' =>
-                    'Não é possível realizar agendamentos durante o intervalo de almoço.',
+                    'Não é possível realizar agendamentos durante o intervalo.',
             ]);
 
         }
@@ -222,19 +239,17 @@ class ScheduleValidator
 
 
 
-
     /**
-     * Impede conflitos de agenda considerando duração.
+     * Valida conflito de horários.
      */
     private function validateConflict(
         array $data,
         Service $service
     ): void {
 
-        $newStart = Carbon::parse(
-            $data['appointment_date']
-            . ' '
-            .
+
+        $newStart = $this->buildDateTime(
+            $data['appointment_date'],
             $data['appointment_time']
         );
 
@@ -253,8 +268,8 @@ class ScheduleValidator
             ->whereIn(
                 'status',
                 [
-                    'pending',
-                    'confirmed'
+                    AppointmentStatus::PENDING->value,
+                    AppointmentStatus::CONFIRMED->value
                 ]
             )
             ->get();
@@ -264,10 +279,9 @@ class ScheduleValidator
         foreach ($appointments as $appointment) {
 
 
-            $existingStart = Carbon::parse(
-                $appointment->appointment_date->format('Y-m-d')
-                . ' '
-                . $appointment->appointment_time
+            $existingStart = $this->buildDateTime(
+                $appointment->appointment_date->format('Y-m-d'),
+                $appointment->appointment_time
             );
 
 
@@ -284,6 +298,7 @@ class ScheduleValidator
                 $newEnd->gt($existingStart)
             ) {
 
+
                 throw ValidationException::withMessages([
                     'appointment_time' =>
                         'O horário informado entra em conflito com outro agendamento.',
@@ -297,12 +312,12 @@ class ScheduleValidator
 
 
 
-
     /**
-     * Impede dois agendamentos exatamente no mesmo horário.
+     * Bloqueia horário duplicado.
      */
     private function validateDuplicate(array $data): void
     {
+
 
         $exists = Appointment::where(
             'appointment_date',
@@ -315,8 +330,8 @@ class ScheduleValidator
             ->whereIn(
                 'status',
                 [
-                    'pending',
-                    'confirmed'
+                    AppointmentStatus::PENDING->value,
+                    AppointmentStatus::CONFIRMED->value,
                 ]
             )
             ->exists();
@@ -324,6 +339,7 @@ class ScheduleValidator
 
 
         if ($exists) {
+
 
             throw ValidationException::withMessages([
                 'appointment_time' =>

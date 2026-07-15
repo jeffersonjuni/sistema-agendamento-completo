@@ -70,6 +70,26 @@
 
             @endif
 
+            @if(auth()->user()->role === 'admin')
+
+                <li>
+
+                    <a href="{{ route('admin.schedules.index') }}"
+                        class="{{ request()->routeIs('admin.schedules.*') ? 'active' : '' }}" data-tooltip="Horários">
+
+                        <i data-lucide="clock-3" class="sidebar-icon">
+                        </i>
+
+                        <span>
+                            Horários
+                        </span>
+
+                    </a>
+
+                </li>
+
+            @endif
+
             @if(auth()->user()->role === 'client')
 
                 <li>

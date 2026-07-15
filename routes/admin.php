@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\AppointmentController;
+use App\Http\Controllers\Admin\ScheduleController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -73,4 +74,14 @@ Route::prefix('admin')
             ]
         )
             ->name('appointments.cancel');
+
+        Route::resource(
+            'schedules',
+            ScheduleController::class
+        )
+            ->only([
+                'index',
+                'edit',
+                'update',
+            ]);
     });
