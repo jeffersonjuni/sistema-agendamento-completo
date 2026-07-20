@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\HistoryController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -15,10 +16,14 @@ Route::prefix('admin')
     ])
     ->group(function () {
 
-        Route::view(
+        Route::get(
             '/dashboard',
-            'admin.dashboard'
-        )->name('dashboard');
+            [
+                DashboardController::class,
+                'index'
+            ]
+        )
+            ->name('dashboard');
 
         Route::view(
             '/components',

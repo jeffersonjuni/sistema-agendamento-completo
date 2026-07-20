@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Client\AppointmentController;
 use App\Http\Controllers\Client\HistoryController;
+use App\Http\Controllers\Client\DashboardController;
 
 Route::prefix('client')
     ->name('client.')
@@ -13,10 +14,14 @@ Route::prefix('client')
     ])
     ->group(function () {
 
-        Route::view(
+        Route::get(
             '/dashboard',
-            'client.dashboard'
-        )->name('dashboard');
+            [
+                DashboardController::class,
+                'index'
+            ]
+        )
+            ->name('dashboard');
 
         Route::get(
             '/perfil',
