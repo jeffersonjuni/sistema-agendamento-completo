@@ -4,11 +4,17 @@ namespace App\Services;
 
 use App\Enums\AppointmentStatus;
 use App\Models\Appointment;
+use App\Filters\AppointmentFilter;
 use Carbon\Carbon;
 
 class HistoryService
 {
 
+    public function __construct(
+        private AppointmentFilter $appointmentFilter
+    ) {
+
+    }
 
     /**
      * Retorna próximos agendamentos do cliente.
@@ -162,7 +168,6 @@ class HistoryService
         array $filters = []
     ) {
 
-
         $query = Appointment::with([
 
             'user',
@@ -172,143 +177,11 @@ class HistoryService
         ]);
 
 
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Filtro de status
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            !empty($filters['status'])
-        ) {
-
-
-            $query->where(
-                'status',
-                $filters['status']
+        $this->appointmentFilter
+            ->apply(
+                $query,
+                $filters
             );
-
-
-        }
-
-
-
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Filtro por cliente
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            !empty($filters['client'])
-        ) {
-
-
-            $query->whereHas(
-                'user',
-                function ($user) use ($filters) {
-
-
-                    $user->where(
-                        'name',
-                        'like',
-                        "%{$filters['client']}%"
-                    );
-
-
-                }
-            );
-
-
-        }
-
-
-
-
-
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Filtro por serviço
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            !empty($filters['service'])
-        ) {
-
-
-            $query->whereHas(
-                'service',
-                function ($service) use ($filters) {
-
-
-                    $service->where(
-                        'name',
-                        'like',
-                        "%{$filters['service']}%"
-                    );
-
-
-                }
-            );
-
-
-        }
-
-
-
-
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | Filtro período
-        |--------------------------------------------------------------------------
-        */
-
-        if (
-            !empty($filters['start_date'])
-        ) {
-
-
-            $query->whereDate(
-                'appointment_date',
-                '>=',
-                $filters['start_date']
-            );
-
-
-        }
-
-
-
-        if (
-            !empty($filters['end_date'])
-        ) {
-
-
-            $query->whereDate(
-                'appointment_date',
-                '<=',
-                $filters['end_date']
-            );
-
-
-        }
-
-
-
-
-
 
 
         return $query
@@ -323,10 +196,5 @@ class HistoryService
 
             ->paginate(15);
 
-
-
     }
-
-
-
 }
