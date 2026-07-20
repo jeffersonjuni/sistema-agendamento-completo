@@ -11,19 +11,24 @@ class DashboardController extends Controller
 
     public function index(
         DashboardService $dashboardService
-    )
-    {
+    ) {
 
 
         $metrics =
             $dashboardService
-            ->getAdminMetrics();
+                ->getAdminMetrics();
 
 
 
         $charts =
             $dashboardService
-            ->getAdminCharts();
+                ->getAdminCharts();
+
+
+
+        $calendarEvents =
+            $dashboardService
+                ->getCalendarEvents();
 
 
 
@@ -31,11 +36,11 @@ class DashboardController extends Controller
             'admin.dashboard',
             compact(
                 'metrics',
-                'charts'
+                'charts',
+                'calendarEvents'
             )
         );
 
+
     }
-
-
 }

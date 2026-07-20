@@ -25,7 +25,6 @@
 @import "./components/datatables.css";
 @import "./components/service-card.css";
 
-
 @import "./utilities/animations.css";
 @import "./utilities/responsive.css";
 @import "./utilities/helpers.css";
@@ -188,4 +187,59 @@
     .grid-2 {
         grid-template-columns: 1fr;
     }
+}
+
+/* =====================================
+   DASHBOARD CALENDAR
+===================================== */
+
+#calendar {
+    --fc-border-color: var(--border);
+
+    --fc-button-bg-color: var(--primary);
+
+    --fc-button-border-color: var(--primary);
+
+    --fc-button-hover-bg-color: var(--primary);
+
+}
+
+.fc {
+    background: var(--card);
+
+    border-radius: 20px;
+
+    padding: 20px;
+}
+
+.fc-toolbar-title {
+    font-size: 1.25rem;
+
+    font-weight: 700;
+}
+
+.fc-button {
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    padding: 8px 14px !important;
+}
+
+.fc-event {
+    border-radius: 8px !important;
+
+    padding: 4px 8px !important;
+
+    font-size: 0.85rem;
+
+    font-weight: 600;
+}
+
+.fc-daygrid-day {
+    transition: 0.2s;
+}
+
+.fc-daygrid-day:hover {
+    background: rgba(99, 102, 241, 0.05);
 }

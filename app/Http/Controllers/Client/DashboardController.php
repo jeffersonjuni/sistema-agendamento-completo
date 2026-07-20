@@ -11,12 +11,38 @@ class DashboardController extends Controller
 
     public function index(
         DashboardService $dashboardService
-    )
-    {
+    ) {
+
+
+        $userId = auth()->id();
+
+
+
+        $metrics =
+            $dashboardService
+                ->getClientMetrics($userId);
+
+
+
+        $charts =
+            $dashboardService
+                ->getClientCharts($userId);
+
+
+
+        $calendarEvents =
+            $dashboardService
+                ->getClientCalendarEvents($userId);
+
 
 
         return view(
-            'client.dashboard'
+            'client.dashboard',
+            compact(
+                'metrics',
+                'charts',
+                'calendarEvents'
+            )
         );
 
 

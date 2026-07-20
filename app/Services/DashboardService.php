@@ -223,60 +223,60 @@ class DashboardService
     /**
      * Faturamento agrupado por mês
      */
-private function getRevenueByMonth()
-{
-    return Appointment::query()
+    private function getRevenueByMonth()
+    {
+        return Appointment::query()
 
-        ->join(
-            'services',
-            'appointments.service_id',
-            '=',
-            'services.id'
-        )
+            ->join(
+                'services',
+                'appointments.service_id',
+                '=',
+                'services.id'
+            )
 
-        ->where(
-            'appointments.status',
-            AppointmentStatus::COMPLETED
-        )
+            ->where(
+                'appointments.status',
+                AppointmentStatus::COMPLETED
+            )
 
-        ->selectRaw('
+            ->selectRaw('
             YEAR(appointments.appointment_date) as year,
             MONTH(appointments.appointment_date) as month,
             SUM(services.price) as total
         ')
 
-        ->groupBy(
-            'year',
-            'month'
-        )
+            ->groupBy(
+                'year',
+                'month'
+            )
 
-        ->orderBy(
-            'year'
-        )
+            ->orderBy(
+                'year'
+            )
 
-        ->orderBy(
-            'month'
-        )
+            ->orderBy(
+                'month'
+            )
 
-        ->get()
+            ->get()
 
-        ->map(function ($item) {
+            ->map(function ($item) {
 
-            return [
+                return [
 
-                'month' => sprintf(
-                    '%02d/%04d',
-                    $item->month,
-                    $item->year
-                ),
+                    'month' => sprintf(
+                        '%02d/%04d',
+                        $item->month,
+                        $item->year
+                    ),
 
-                'total' => (float) $item->total,
+                    'total' => (float) $item->total,
 
-            ];
+                ];
 
-        });
+            });
 
-}
+    }
 
     /**
      * Serviços mais utilizados
@@ -326,5 +326,277 @@ private function getRevenueByMonth()
 
     }
 
+    /**
+     * Eventos utilizados no calendário
+     */
+    /**
+     * Eventos utilizados no calendário
+     */
+    public function getCalendarEvents()
+    {
+        return Appointment::with([
+            'user',
+            'service'
+        ])
+            ->orderBy('appointment_date')
+            ->get()
+            ->map(function ($appointment) {
+
+
+                $colors = [
+
+                    'pending' => '#f59e0b',
+
+                    'confirmed' => '#22c55e',
+
+                    'completed' => '#3b82f6',
+
+                    'cancelled' => '#ef4444',
+
+                ];
+
+
+                return [
+
+                    'title' =>
+                        $appointment->service->name
+                        . ' - '
+                        . $appointment->user->name,
+
+
+                    'start' =>
+                        $appointment->appointment_date->format('Y-m-d')
+                        . ' '
+                        .
+                        \Carbon\Carbon::parse(
+                            $appointment->appointment_time
+                        )->format('H:i:s'),
+
+
+                    'backgroundColor' =>
+                        $colors[$appointment->status->value]
+                        ?? '#6366f1',
+
+
+                    'borderColor' =>
+                        $colors[$appointment->status->value]
+                        ?? '#6366f1',
+
+
+                    'extendedProps' => [
+
+                        'status' =>
+                            $appointment->status->label(),
+
+                        'service' =>
+                            $appointment->service->name,
+
+                        'client' =>
+                            $appointment->user->name,
+
+                        'time' =>
+                            $appointment->appointment_time,
+
+                    ]
+
+                ];
+
+            });
+
+    }
+
+    public function getClientMetrics(int $userId)
+    {
+
+        return [
+
+            'upcomingAppointments' =>
+                Appointment::where('user_id', $userId)
+                    ->whereDate(
+                        'appointment_date',
+                        '>=',
+                        now()
+                    )
+                    ->whereNot(
+                        'status',
+                        'cancelled'
+                    )
+                    ->count(),
+
+
+
+            'totalAppointments' =>
+                Appointment::where('user_id', $userId)
+                    ->count(),
+
+
+
+            'completedAppointments' =>
+                Appointment::where('user_id', $userId)
+                    ->where(
+                        'status',
+                        'completed'
+                    )
+                    ->count(),
+
+
+
+            'lastAppointment' =>
+                Appointment::where('user_id', $userId)
+                    ->latest('appointment_date')
+                    ->first(),
+
+        ];
+
+    }
+
+    public function getClientCharts(int $userId)
+    {
+
+        return [
+
+            'appointmentsStatus' =>
+
+                Appointment::where(
+                    'user_id',
+                    $userId
+                )
+                    ->selectRaw(
+                        'status, COUNT(*) as total'
+                    )
+                    ->groupBy('status')
+                    ->pluck(
+                        'total',
+                        'status'
+                    ),
+
+
+
+            'appointmentsByMonth' =>
+
+                Appointment::where(
+                    'user_id',
+                    $userId
+                )
+                    ->selectRaw(
+                        "
+                    YEAR(appointment_date) as year,
+                    MONTH(appointment_date) as month,
+                    COUNT(*) as total
+                    "
+                    )
+                    ->groupBy(
+                        'year',
+                        'month'
+                    )
+                    ->orderBy(
+                        'year'
+                    )
+                    ->orderBy(
+                        'month'
+                    )
+                    ->get()
+                    ->map(function ($appointment) {
+
+
+                        return [
+
+                            'year' =>
+                                $appointment->year,
+
+
+                            'month' =>
+                                $appointment->month,
+
+
+                            'total' =>
+                                $appointment->total
+
+                        ];
+
+
+                    }),
+
+
+
+
+            'topServices' =>
+
+                Appointment::where(
+                    'user_id',
+                    $userId
+                )
+                    ->selectRaw(
+                        "
+    service_id,
+    COUNT(*) as total
+    "
+                    )
+                    ->groupBy(
+                        'service_id'
+                    )
+                    ->with(
+                        'service'
+                    )
+                    ->orderByDesc(
+                        'total'
+                    )
+                    ->limit(5)
+                    ->get()
+                    ->map(function ($appointment) {
+
+                        return [
+
+                            'service' =>
+                                $appointment->service?->name ?? 'Sem serviço',
+
+                            'total' =>
+                                $appointment->total
+
+                        ];
+
+                    }),
+
+
+        ];
+
+    }
+
+    public function getClientCalendarEvents(int $userId)
+    {
+
+        return Appointment::with([
+            'service'
+        ])
+            ->where(
+                'user_id',
+                $userId
+            )
+            ->get()
+            ->map(function ($appointment) {
+
+
+                return [
+
+                    'title' =>
+                        $appointment->service->name,
+
+
+                    'start' =>
+                        $appointment->appointment_date
+                            ->format('Y-m-d')
+                        .
+                        ' '
+                        .
+                        \Carbon\Carbon::parse(
+                            $appointment->appointment_time
+                        )->format('H:i:s'),
+
+                ];
+
+
+            });
+
+    }
 
 }

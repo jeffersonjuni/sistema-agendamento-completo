@@ -4,6 +4,8 @@ import "./navbar";
 import "./sweetalert";
 import "./datatables";
 import "./appointments/create.js";
+import "./dashboard/chart.js";
+import "./calendar/dashboard-calendar.js";
 
 window.Alpine = Alpine;
 
