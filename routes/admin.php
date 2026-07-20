@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Admin\HistoryController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -84,4 +85,13 @@ Route::prefix('admin')
                 'edit',
                 'update',
             ]);
+
+        Route::get(
+            'history',
+            [
+                HistoryController::class,
+                'index'
+            ]
+        )
+            ->name('history.index');
     });

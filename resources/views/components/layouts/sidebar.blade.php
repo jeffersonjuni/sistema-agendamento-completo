@@ -74,6 +74,31 @@
 
                 <li>
 
+                    <a href="{{ route('admin.history.index') }}"
+                        class="{{ request()->routeIs('admin.history.*') ? 'active' : '' }}" data-tooltip="Histórico">
+
+
+                        <i data-lucide="history" class="sidebar-icon">
+                        </i>
+
+
+                        <span>
+                            Histórico
+                        </span>
+
+
+                    </a>
+
+
+                </li>
+
+
+            @endif
+
+            @if(auth()->user()->role === 'admin')
+
+                <li>
+
                     <a href="{{ route('admin.schedules.index') }}"
                         class="{{ request()->routeIs('admin.schedules.*') ? 'active' : '' }}" data-tooltip="Horários">
 
@@ -105,6 +130,29 @@
 
                         <span>
                             Meus Agendamentos
+                        </span>
+
+
+                    </a>
+
+                </li>
+
+            @endif
+
+            @if(auth()->user()->role === 'client')
+
+                <li>
+
+                    <a href="{{ route('client.history.index') }}"
+                        class="{{ request()->routeIs('client.history.*') ? 'active' : '' }}" data-tooltip="Histórico">
+
+
+                        <i data-lucide="history" class="sidebar-icon">
+                        </i>
+
+
+                        <span>
+                            Histórico
                         </span>
 
 

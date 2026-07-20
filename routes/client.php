@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Client\AppointmentController;
+use App\Http\Controllers\Client\HistoryController;
 
 Route::prefix('client')
     ->name('client.')
@@ -69,5 +70,14 @@ Route::prefix('client')
                 'schedules'
             ]
         )->name('appointments.schedules');
+
+        Route::get(
+            'history',
+            [
+                HistoryController::class,
+                'index'
+            ]
+        )
+            ->name('history.index');
 
     });
