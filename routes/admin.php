@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\HistoryController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReportController;
 
 Route::prefix('admin')
     ->name('admin.')
@@ -99,4 +100,28 @@ Route::prefix('admin')
             ]
         )
             ->name('history.index');
+
+        Route::get(
+            'reports',
+            [
+                ReportController::class,
+                'index',
+            ]
+        )->name('reports.index');
+
+        Route::get(
+            'reports/pdf',
+            [
+                ReportController::class,
+                'exportPdf',
+            ]
+        )->name('reports.pdf');
+
+        Route::get(
+            'reports/excel',
+            [
+                ReportController::class,
+                'exportExcel',
+            ]
+        )->name('reports.excel');
     });
