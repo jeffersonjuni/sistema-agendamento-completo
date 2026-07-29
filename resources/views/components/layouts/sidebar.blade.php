@@ -99,6 +99,26 @@
 
                 <li>
 
+                    <a href="{{ route('admin.reports.index') }}"
+                        class="{{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" data-tooltip="Relatórios">
+
+                        <i data-lucide="file-text" class="sidebar-icon">
+                        </i>
+
+                        <span>
+                            Relatórios
+                        </span>
+
+                    </a>
+
+                </li>
+
+            @endif
+
+            @if(auth()->user()->role === 'admin')
+
+                <li>
+
                     <a href="{{ route('admin.schedules.index') }}"
                         class="{{ request()->routeIs('admin.schedules.*') ? 'active' : '' }}" data-tooltip="Horários">
 
