@@ -5,456 +5,644 @@
 
 @section('content')
 
-    <div class="space-y-6">
+<div class="space-y-6">
 
 
-        <x-ui.page-header
-            title="Meus Agendamentos"
-            subtitle="Visualize e gerencie seus horários agendados."
+
+    <x-ui.page-header
+        title="Meus Agendamentos"
+        subtitle="Visualize e gerencie seus horários agendados."
+    >
+
+        <a
+            href="{{ route('client.appointments.create') }}"
+            class="btn btn-primary"
         >
 
-            <a
-                href="{{ route('client.appointments.create') }}"
-                class="btn btn-primary"
-            >
-                Novo Agendamento
-            </a>
+            Novo Agendamento
+
+        </a>
 
 
-        </x-ui.page-header>
+    </x-ui.page-header>
+
+
+
+
+
+
+
+    <x-ui.card>
+
+
+        <form method="GET" class="grid md:grid-cols-3 gap-4">
+
+
+
+            <div>
+
+
+                <x-ui.label>
+
+                    Status
+
+                </x-ui.label>
+
+
+
+                <select
+                    name="status"
+                    class="input-default"
+                >
+
+
+                    <option value="">
+
+                        Todos
+
+                    </option>
+
+
+
+
+                    <option
+                        value="pending"
+                        @selected(request('status') === 'pending')
+                    >
+
+                        Pendente
+
+                    </option>
+
+
+
+
+                    <option
+                        value="confirmed"
+                        @selected(request('status') === 'confirmed')
+                    >
+
+                        Confirmado
+
+                    </option>
+
+
+
+
+                    <option
+                        value="completed"
+                        @selected(request('status') === 'completed')
+                    >
+
+                        Concluído
+
+                    </option>
+
+
+
+
+                    <option
+                        value="cancelled"
+                        @selected(request('status') === 'cancelled')
+                    >
+
+                        Cancelado
+
+                    </option>
+
+
+
+                </select>
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div>
+
+
+                <x-ui.label>
+
+                    Data
+
+                </x-ui.label>
+
+
+
+
+                <x-ui.input
+                    type="date"
+                    name="date"
+                    :value="request('date')"
+                />
+
+
+
+            </div>
+
+
+
+
+
+
+
+            <div class="flex items-end gap-3">
+
+
+
+                <x-ui.button type="submit">
+
+
+                    Filtrar
+
+
+                </x-ui.button>
+
+
+
+
+
+                <a
+                    href="{{ route('client.appointments.index') }}"
+                    class="btn btn-secondary"
+                >
+
+                    Limpar
+
+
+                </a>
+
+
+
+            </div>
+
+
+
+
+
+        </form>
+
+
+
+    </x-ui.card>
+
+
+
+
+
+
+
+
+
+    @if($appointments->isEmpty())
+
+
+
+        <x-ui.empty-state
+            title="Nenhum agendamento encontrado"
+            description="Você ainda não possui nenhum horário agendado."
+        />
+
+
+
+
+
+    @else
+
+
+
+
+
 
         <x-ui.card>
 
-    <form method="GET" class="grid md:grid-cols-3 gap-4">
 
-        <div>
 
-            <x-ui.label>
-                Status
-            </x-ui.label>
+            <x-ui.table>
 
-            <select
-                name="status"
-                class="input-default"
-            >
 
-                <option value="">
-                    Todos
-                </option>
 
-                <option value="pending" @selected(request('status') === 'pending')>
-                    Pendente
-                </option>
 
-                <option value="confirmed" @selected(request('status') === 'confirmed')>
-                    Confirmado
-                </option>
+                <thead>
 
-                <option value="completed" @selected(request('status') === 'completed')>
-                    Concluído
-                </option>
 
-                <option value="cancelled" @selected(request('status') === 'cancelled')>
-                    Cancelado
-                </option>
+                    <tr>
 
-            </select>
 
-        </div>
+                        <th>
 
-        <div>
+                            Serviço
 
-            <x-ui.label>
-                Data
-            </x-ui.label>
+                        </th>
 
-            <x-ui.input
-                type="date"
-                name="date"
-                :value="request('date')"
-            />
 
-        </div>
 
-        <div class="flex items-end gap-3">
+                        <th>
 
-            <x-ui.button type="submit">
+                            Data
 
-                Filtrar
+                        </th>
 
-            </x-ui.button>
 
-            <a
-                href="{{ route('client.appointments.index') }}"
-                class="btn btn-secondary"
-            >
 
-                Limpar
+                        <th>
 
-            </a>
+                            Horário
 
-        </div>
+                        </th>
 
-    </form>
 
-</x-ui.card>
 
+                        <th>
 
+                            Duração
 
+                        </th>
 
 
-        @if(session('success'))
 
-            <x-ui.alert type="success">
+                        <th>
 
-                {{ session('success') }}
+                            Status
 
-            </x-ui.alert>
+                        </th>
 
-        @endif
 
 
+                        <th>
 
+                            Ações
 
+                        </th>
 
 
-        @if($appointments->isEmpty())
 
+                    </tr>
 
-            <x-ui.empty-state
-                title="Nenhum agendamento encontrado"
-                description="Você ainda não possui nenhum horário agendado."
-            />
 
 
+                </thead>
 
-        @else
 
 
 
-            <x-ui.card>
 
 
-                <x-ui.table>
 
 
-                    <thead>
+                <tbody>
 
 
-                        <tr>
 
 
-                            <th>
-                                Serviço
-                            </th>
+                    @foreach($appointments as $appointment)
 
 
 
-                            <th>
-                                Data
-                            </th>
+                    <tr>
 
 
 
-                            <th>
-                                Horário
-                            </th>
 
+                        <td>
 
+                            {{ $appointment->service->name }}
 
-                            <th>
-                                Duração
-                            </th>
+                        </td>
 
 
 
-                            <th>
-                                Status
-                            </th>
 
 
 
-                            <th>
-                                Ações
-                            </th>
+                        <td>
 
+                            {{ $appointment->appointment_date->format('d/m/Y') }}
 
-                        </tr>
+                        </td>
 
 
-                    </thead>
 
 
 
 
+                        <td>
 
-                    <tbody>
+                            {{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:i') }}
 
+                        </td>
 
 
-                        @foreach($appointments as $appointment)
 
 
-                            <tr>
 
 
+                        <td>
 
-                                <td>
+                            {{ $appointment->duration }} min
 
-                                    {{ $appointment->service->name }}
+                        </td>
 
-                                </td>
 
 
 
 
 
-                                <td>
 
-                                    {{ $appointment->appointment_date->format('d/m/Y') }}
+                        <td>
 
-                                </td>
 
 
+                            @switch($appointment->status->value)
 
 
 
-                                <td>
+                                @case('pending')
 
-                                    {{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:i') }}
 
-                                </td>
+                                    <x-ui.badge variant="warning">
 
+                                        {{ $appointment->status->label() }}
 
+                                    </x-ui.badge>
 
 
+                                @break
 
-                                <td>
 
-                                    {{ $appointment->duration }} min
 
-                                </td>
 
 
 
+                                @case('confirmed')
 
 
+                                    <x-ui.badge variant="success">
 
-                                <td>
+                                        {{ $appointment->status->label() }}
 
+                                    </x-ui.badge>
 
-                                    @switch($appointment->status->value)
 
+                                @break
 
-                                        @case('pending')
 
-                                            <x-ui.badge variant="warning">
 
-                                                {{ $appointment->status->label() }}
 
-                                            </x-ui.badge>
 
-                                            @break
 
+                                @case('completed')
 
 
+                                    <x-ui.badge variant="primary">
 
-                                        @case('confirmed')
+                                        {{ $appointment->status->label() }}
 
-                                            <x-ui.badge variant="success">
+                                    </x-ui.badge>
 
-                                                {{ $appointment->status->label() }}
 
-                                            </x-ui.badge>
+                                @break
 
-                                            @break
 
 
 
 
-                                        @case('completed')
 
-                                            <x-ui.badge variant="primary">
+                                @case('cancelled')
 
-                                                {{ $appointment->status->label() }}
 
-                                            </x-ui.badge>
+                                    <x-ui.badge variant="danger">
 
-                                            @break
+                                        {{ $appointment->status->label() }}
 
+                                    </x-ui.badge>
 
 
+                                @break
 
-                                        @case('cancelled')
 
-                                            <x-ui.badge variant="danger">
 
-                                                {{ $appointment->status->label() }}
+                            @endswitch
 
-                                            </x-ui.badge>
 
-                                            @break
 
+                        </td>
 
 
-                                    @endswitch
 
 
-                                </td>
 
 
 
+                        <td>
 
 
 
-                                <td>
 
+                            @if(
+                                $appointment->status->value !== 'cancelled'
+                                &&
+                                $appointment->status->value !== 'completed'
+                            )
 
-                                    @if(
-                                        $appointment->status->value !== 'cancelled'
-                                        &&
-                                        $appointment->status->value !== 'completed'
-                                    )
 
 
-                                        <x-ui.modal title="Cancelar agendamento">
+                                <x-ui.modal title="Cancelar agendamento">
 
 
-                                            <x-slot name="trigger">
 
 
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-danger"
-                                                >
 
-                                                    Cancelar
+                                    <x-slot name="trigger">
 
-                                                </button>
 
 
-                                            </x-slot>
+                                        <button
+                                            type="button"
+                                            class="btn btn-danger"
+                                        >
 
+                                            Cancelar
 
+                                        </button>
 
 
 
-                                            <p>
+                                    </x-slot>
 
-                                                Tem certeza que deseja cancelar o agendamento de
 
-                                                <strong>
-                                                    {{ $appointment->service->name }}
-                                                </strong>
 
-                                                no dia
 
-                                                <strong>
-                                                    {{ $appointment->appointment_date->format('d/m/Y') }}
-                                                </strong>
 
-                                                às
 
-                                                <strong>
-                                                    {{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:i') }}
-                                                </strong>
 
-                                                ?
+                                    <p>
 
-                                            </p>
 
+                                        Tem certeza que deseja cancelar o agendamento de
 
 
+                                        <strong>
 
+                                            {{ $appointment->service->name }}
 
+                                        </strong>
 
-                                            <div class="modal-actions">
 
 
+                                        no dia
 
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-secondary"
-                                                    @click="open=false"
-                                                >
 
-                                                    Voltar
 
-                                                </button>
+                                        <strong>
 
+                                            {{ $appointment->appointment_date->format('d/m/Y') }}
 
+                                        </strong>
 
 
 
+                                        às
 
-                                                <form
-                                                    method="POST"
-                                                    action="{{ route('client.appointments.cancel', $appointment) }}"
-                                                >
 
-                                                    @csrf
 
-                                                    @method('PATCH')
+                                        <strong>
 
+                                            {{ \Carbon\Carbon::parse($appointment->appointment_time)->format('H:i') }}
 
+                                        </strong>
 
-                                                    <button
-                                                        type="submit"
-                                                        class="btn btn-danger"
-                                                    >
 
-                                                        Confirmar Cancelamento
 
-                                                    </button>
+                                        ?
 
 
 
-                                                </form>
+                                    </p>
 
 
 
-                                            </div>
 
 
 
 
-                                        </x-ui.modal>
 
+                                    <div class="modal-actions">
 
-                                    @endif
 
 
 
-                                </td>
 
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            @click="open=false"
+                                        >
 
+                                            Voltar
 
-                            </tr>
+                                        </button>
 
 
 
-                        @endforeach
 
 
 
-                    </tbody>
 
+                                        <form
+                                            method="POST"
+                                            action="{{ route('client.appointments.cancel', $appointment) }}"
+                                        >
 
+                                            @csrf
 
-                </x-ui.table>
+                                            @method('PATCH')
 
 
 
-            </x-ui.card>
 
 
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger"
+                                            >
 
-        @endif
+                                                Confirmar Cancelamento
 
+                                            </button>
 
 
 
-    </div>
+                                        </form>
+
+
+
+
+
+                                    </div>
+
+
+
+
+
+
+                                </x-ui.modal>
+
+
+
+                            @endif
+
+
+
+
+
+                        </td>
+
+
+
+
+
+                    </tr>
+
+
+
+
+                    @endforeach
+
+
+
+
+
+                </tbody>
+
+
+
+
+
+            </x-ui.table>
+
+
+
+
+        </x-ui.card>
+
+
+
+
+
+    @endif
+
+
+
+
+
+</div>
 
 
 

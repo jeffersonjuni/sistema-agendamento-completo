@@ -37,16 +37,14 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
 
-                showAlert(
-                    'success',
-                    "{{ session('success') }}"
+                showSuccess(
+                    {{ Js::from(session('success')) }}
                 );
 
             });
         </script>
 
     @endif
-
 
 
     @if(session('error'))
@@ -54,9 +52,8 @@
         <script>
             document.addEventListener('DOMContentLoaded', () => {
 
-                showAlert(
-                    'error',
-                    "{{ session('error') }}"
+                showError(
+                    {{ Js::from(session('error')) }}
                 );
 
             });
@@ -64,7 +61,50 @@
 
     @endif
 
+
+    @if(session('warning'))
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                showWarning(
+                    {{ Js::from(session('warning')) }}
+                );
+
+            });
+        </script>
+
+    @endif
+
+
+    @if(session('info'))
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                showInfo(
+                    {{ Js::from(session('info')) }}
+                );
+
+            });
+        </script>
+
+    @endif
     @stack('scripts')
+
+    @if($errors->any())
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+
+                showError(
+                    {{ Js::from($errors->first()) }}
+                );
+
+            });
+        </script>
+
+    @endif
 
 </body>
 

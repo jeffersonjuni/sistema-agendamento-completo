@@ -1,11 +1,14 @@
 import Swal from "sweetalert2";
 
+/*
+|--------------------------------------------------------------------------
+| Toasts Globais
+|--------------------------------------------------------------------------
+*/
 
-window.showAlert = function (type, message) {
-
+function showToast(icon, message) {
     Swal.fire({
-
-        icon: type,
+        icon,
 
         text: message,
 
@@ -16,43 +19,57 @@ window.showAlert = function (type, message) {
         position: "top-end",
 
         toast: true,
-
     });
+}
 
+window.showSuccess = function (message) {
+    showToast("success", message);
 };
 
-window.confirmDelete = function(event){
+window.showError = function (message) {
+    showToast("error", message);
+};
 
+window.showWarning = function (message) {
+    showToast("warning", message);
+};
+
+window.showInfo = function (message) {
+    showToast("info", message);
+};
+
+/*
+|--------------------------------------------------------------------------
+| Confirmações
+|--------------------------------------------------------------------------
+*/
+
+window.confirmDelete = function (
+    event,
+    title = "Excluir registro?",
+    text = "Essa ação não poderá ser desfeita.",
+) {
     event.preventDefault();
 
-
     Swal.fire({
+        title,
 
-        title: "Excluir serviço?",
-
-        text: "Essa ação não poderá ser desfeita.",
+        text,
 
         icon: "warning",
 
-        showCancelButton:true,
+        showCancelButton: true,
 
-        confirmButtonText:"Excluir",
+        confirmButtonText: "Excluir",
 
-        cancelButtonText:"Cancelar",
+        cancelButtonText: "Cancelar",
 
-    }).then((result)=>{
-
-
-        if(result.isConfirmed){
-
+        reverseButtons: true,
+    }).then((result) => {
+        if (result.isConfirmed) {
             event.target.submit();
-
         }
-
-
     });
 
-
     return false;
-
-}
+};

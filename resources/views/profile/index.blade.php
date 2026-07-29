@@ -6,36 +6,6 @@
 
     <div class="container-default space-y-6">
 
-        @if(session('success'))
-
-            <x-ui.alert type="success">
-                {{ session('success') }}
-            </x-ui.alert>
-
-        @endif
-
-
-        @if($errors->any())
-
-            <x-ui.alert type="error">
-
-                <ul class="list-disc ml-5">
-
-                    @foreach($errors->all() as $error)
-
-                        <li>
-                            {{ $error }}
-                        </li>
-
-                    @endforeach
-
-                </ul>
-
-            </x-ui.alert>
-
-        @endif
-
-
         <x-ui.page-header title="Meu Perfil" subtitle="Gerencie suas informações pessoais." />
 
 
@@ -192,10 +162,10 @@
                     </x-ui.label>
 
                     <div class="
-                                text-sm
-                                text-[var(--text-secondary)]
-                                space-y-1
-                            ">
+                                    text-sm
+                                    text-[var(--text-secondary)]
+                                    space-y-1
+                                ">
 
                         <p>
                             A senha deve conter:

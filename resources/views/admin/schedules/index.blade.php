@@ -12,22 +12,6 @@
 
 
 
-        @if(session('success'))
-
-            <div class="animate-fade-in">
-
-                <x-ui.alert type="success">
-
-                    {{session('success')}}
-
-                </x-ui.alert>
-
-            </div>
-
-        @endif
-
-
-
         <x-ui.card>
 
 
@@ -45,23 +29,29 @@
                                 Dia
                             </th>
 
+
                             <th>
                                 Status
                             </th>
+
 
                             <th>
                                 Expediente
                             </th>
 
+
                             <th>
                                 Intervalo
                             </th>
+
 
                             <th>
                                 Ações
                             </th>
 
+
                         </tr>
+
 
                     </thead>
 
@@ -78,6 +68,7 @@
 
                                                 <td class="font-medium">
 
+
                                                     {{ match ($schedule->weekday) {
 
                                 1 => 'Segunda-feira',
@@ -89,6 +80,8 @@
                                 7 => 'Domingo',
 
                             } }}
+
+
                                                 </td>
 
 
@@ -99,8 +92,11 @@
 
                                                     @if($schedule->is_open)
 
+
                                                         <x-ui.badge variant="success">
+
                                                             Aberto
+
                                                         </x-ui.badge>
 
 
@@ -108,7 +104,9 @@
 
 
                                                         <x-ui.badge variant="danger">
+
                                                             Fechado
+
                                                         </x-ui.badge>
 
 
@@ -128,7 +126,7 @@
 
                                                         <span class="font-medium">
 
-                                                            {{Carbon\Carbon::parse($schedule->start_time)->format('H:i')}}
+                                                            {{ Carbon\Carbon::parse($schedule->start_time)->format('H:i') }}
 
                                                         </span>
 
@@ -138,7 +136,7 @@
 
                                                         <span class="font-medium">
 
-                                                            {{Carbon\Carbon::parse($schedule->end_time)->format('H:i')}}
+                                                            {{ Carbon\Carbon::parse($schedule->end_time)->format('H:i') }}
 
                                                         </span>
 
@@ -161,11 +159,11 @@
                                                     @if($schedule->break_start && $schedule->break_end)
 
 
-                                                        {{Carbon\Carbon::parse($schedule->break_start)->format('H:i')}}
+                                                        {{ Carbon\Carbon::parse($schedule->break_start)->format('H:i') }}
 
                                                         -
 
-                                                        {{Carbon\Carbon::parse($schedule->break_end)->format('H:i')}}
+                                                        {{ Carbon\Carbon::parse($schedule->break_end)->format('H:i') }}
 
 
                                                     @else
@@ -183,7 +181,7 @@
                                                 <td>
 
 
-                                                    <a href="{{route('admin.schedules.edit', $schedule)}}" class="btn btn-primary"
+                                                    <a href="{{ route('admin.schedules.edit', $schedule) }}" class="btn btn-primary"
                                                         title="Editar horário">
 
                                                         Editar

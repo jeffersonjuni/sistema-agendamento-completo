@@ -13,44 +13,14 @@
         <x-ui.page-header title="Editar Serviço" subtitle="Atualize as informações do serviço.">
 
             <a href="{{ route('admin.services.index') }}" class="btn btn-secondary">
+
                 Voltar
+
             </a>
 
 
         </x-ui.page-header>
 
-
-
-
-
-        @if(session('success'))
-
-            <x-ui.alert type="success">
-                {{ session('success') }}
-            </x-ui.alert>
-
-        @endif
-
-
-        @if($errors->any())
-
-            <x-ui.alert type="error">
-
-                <ul class="list-disc ml-5">
-
-                    @foreach($errors->all() as $error)
-
-                        <li>
-                            {{ $error }}
-                        </li>
-
-                    @endforeach
-
-                </ul>
-
-            </x-ui.alert>
-
-        @endif
 
 
 
@@ -73,11 +43,15 @@
 
 
 
+
+
                 <div>
 
 
                     <x-ui.label>
+
                         Nome do Serviço
+
                     </x-ui.label>
 
 
@@ -93,11 +67,17 @@
 
 
 
+
+
+
+
                 <div>
 
 
                     <x-ui.label>
+
                         Descrição
+
                     </x-ui.label>
 
 
@@ -117,6 +97,10 @@
 
 
 
+
+
+
+
                 <div class="grid md:grid-cols-2 gap-5">
 
 
@@ -125,8 +109,11 @@
 
 
                         <x-ui.label>
+
                             Preço
+
                         </x-ui.label>
+
 
 
 
@@ -142,12 +129,17 @@
 
 
 
+
+
                     <div>
 
 
                         <x-ui.label>
+
                             Duração (minutos)
+
                         </x-ui.label>
+
 
 
 
@@ -168,12 +160,19 @@
 
 
 
+
+
+
                 <div>
 
 
                     <x-ui.label>
+
                         Status
+
                     </x-ui.label>
+
+
 
 
 
@@ -184,15 +183,22 @@
 
 
                         <option value="1" @selected(old('status', $service->status) == 1)>
+
                             Ativo
+
                         </option>
+
+
 
 
 
 
                         <option value="0" @selected(old('status', $service->status) == 0)>
+
                             Inativo
+
                         </option>
+
 
 
 
@@ -211,19 +217,30 @@
 
 
 
+
+
+
+
                 <div class="flex justify-end gap-3">
 
 
 
                     <a href="{{ route('admin.services.index') }}" class="btn btn-secondary">
+
                         Cancelar
+
                     </a>
 
 
 
 
+
+
+
                     <x-ui.button type="submit">
+
                         Atualizar Serviço
+
                     </x-ui.button>
 
 
@@ -234,11 +251,14 @@
 
 
 
+
+
             </form>
 
 
 
         </x-ui.card>
+
 
 
 
