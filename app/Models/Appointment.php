@@ -10,35 +10,19 @@ class Appointment extends Model
 {
     use SoftDeletes;
 
-
-
     protected $fillable = [
-
         'user_id',
-
         'service_id',
-
         'appointment_date',
-
         'appointment_time',
-
         'duration',
-
         'status',
-
     ];
-
-
 
     protected $casts = [
-
         'appointment_date' => 'date',
-
         'status' => AppointmentStatus::class,
-
     ];
-
-
 
     public function user()
     {
@@ -47,12 +31,10 @@ class Appointment extends Model
         );
     }
 
-
-
     public function service()
     {
         return $this->belongsTo(
             Service::class
-        );
+        )->withTrashed();
     }
 }

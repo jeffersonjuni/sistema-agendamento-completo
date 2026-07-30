@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Service;
 use App\Services\ServiceService;
 use Illuminate\Http\Request;
+use App\Enums\AppointmentStatus;
 
 class ServiceController extends Controller
 {
@@ -140,7 +141,13 @@ class ServiceController extends Controller
 
     public function destroy(Service $service)
     {
-        if ($service->appointments()->exists()) {
+        if (
+            $service->appointments()
+                ->whereNotIn('status', [
+                    AppointmentStatus::CANCELLED->value,
+                ])
+                ->exists()
+        ) {
 
             return redirect()
                 ->route('admin.services.index')
