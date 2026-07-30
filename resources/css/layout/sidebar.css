@@ -1,5 +1,6 @@
 .sidebar {
     width: 260px;
+
     background-color: var(--sidebar);
     color: var(--sidebar-foreground);
 
@@ -8,24 +9,18 @@
 
     padding: 24px;
 
-  transition:
-    width .30s ease,
-    left .30s ease;
+    transition:
+        width 0.3s ease,
+        left 0.3s ease;
 }
 
 .sidebar.collapsed {
     width: 80px;
 }
 
-.sidebar.collapsed .sidebar-nav a{
-
-    justify-content:center;
-
-    padding:12px;
-
-    gap:0;
-
-}
+/* ========================================
+   SIDEBAR LOGO
+======================================== */
 
 .sidebar-logo {
     display: flex;
@@ -51,22 +46,6 @@
     font-weight: 700;
 
     white-space: nowrap;
-}
-
-.sidebar-nav span {
-    white-space: nowrap;
-
-    transition:
-        opacity 0.25s,
-        width 0.25s,
-        margin 0.25s;
-}
-.sidebar-logo-text {
-    font-size: 24px;
-
-    font-weight: 700;
-
-    white-space: nowrap;
 
     transition:
         opacity 0.25s,
@@ -74,22 +53,37 @@
         margin 0.25s;
 }
 
-.sidebar-icon {
-    width: 20px;
-    height: 20px;
-
-    flex-shrink: 0;
+.sidebar.collapsed .sidebar-logo {
+    justify-content: center;
 }
+
+.sidebar.collapsed .sidebar-logo-text {
+    opacity: 0;
+
+    width: 0;
+
+    margin: 0;
+
+    overflow: hidden;
+}
+
+/* ========================================
+   SIDEBAR NAVIGATION
+======================================== */
 
 .sidebar-nav ul {
     display: flex;
     flex-direction: column;
+
     gap: 12px;
 }
 
 .sidebar-nav a {
+    position: relative;
+
     display: flex;
     align-items: center;
+
     gap: 12px;
 
     padding: 12px 16px;
@@ -102,6 +96,54 @@
 .sidebar-nav a:hover {
     background-color: rgba(255, 255, 255, 0.06);
 }
+
+.sidebar-nav span {
+    white-space: nowrap;
+
+    transition:
+        opacity 0.25s,
+        width 0.25s,
+        margin 0.25s;
+}
+
+/* ========================================
+   SIDEBAR ICONS
+======================================== */
+
+.sidebar-icon {
+    width: 22px;
+    height: 22px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SVG dentro do container */
+.sidebar-icon svg {
+    width: 22px;
+    height: 22px;
+
+    flex-shrink: 0;
+}
+
+/* Caso o próprio elemento seja um SVG */
+svg.sidebar-icon {
+    width: 22px;
+    height: 22px;
+
+    flex-shrink: 0;
+}
+
+.sidebar-nav a.active .sidebar-icon {
+    color: var(--primary);
+}
+
+/* ========================================
+   ACTIVE LINK
+======================================== */
 
 .sidebar-nav a.active {
     position: relative;
@@ -125,7 +167,6 @@
     left: -24px;
 
     top: 8px;
-
     bottom: 8px;
 
     width: 4px;
@@ -135,8 +176,79 @@
     background: var(--primary);
 }
 
-.sidebar-nav a.active .sidebar-icon {
-    color: var(--primary);
+/* ========================================
+   COLLAPSED SIDEBAR
+======================================== */
+
+.sidebar.collapsed .sidebar-nav a {
+    justify-content: center;
+
+    padding: 12px;
+
+    gap: 0;
+}
+
+/*
+   Aumenta o container do ícone
+*/
+.sidebar.collapsed .sidebar-nav .sidebar-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    min-width: 30px;
+    min-height: 30px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*
+   Aumenta o SVG caso esteja
+   dentro do .sidebar-icon
+*/
+.sidebar.collapsed .sidebar-nav .sidebar-icon svg {
+    width: 30px !important;
+    height: 30px !important;
+
+    min-width: 30px;
+    min-height: 30px;
+}
+
+/*
+   Aumenta o SVG caso ele próprio
+   possua a classe sidebar-icon
+*/
+.sidebar.collapsed .sidebar-nav svg.sidebar-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    min-width: 30px;
+    min-height: 30px;
+}
+
+/*
+   Caso esteja usando Lucide com
+   data-lucide
+*/
+.sidebar.collapsed .sidebar-nav [data-lucide] {
+    width: 30px !important;
+    height: 30px !important;
+
+    min-width: 30px;
+    min-height: 30px;
+}
+
+.sidebar.collapsed .sidebar-nav span {
+    opacity: 0;
+
+    width: 0;
+
+    margin: 0;
+
+    overflow: hidden;
 }
 
 .sidebar.collapsed .sidebar-nav a.active::before {
@@ -148,44 +260,9 @@
 
     border: 1px solid rgba(20, 184, 166, 0.35);
 }
-
-.sidebar.collapsed .sidebar-logo{
-
-    justify-content:center;
-
-}
-
-.sidebar.collapsed .sidebar-logo-text{
-
-    opacity:0;
-
-    width:0;
-
-    margin:0;
-
-    overflow:hidden;
-
-}
-
-.sidebar.collapsed .sidebar-nav span{
-
-    opacity:0;
-
-    width:0;
-
-    margin:0;
-
-    overflow:hidden;
-
-}
-
 /* ========================================
    TOOLTIP SIDEBAR
 ======================================== */
-
-.sidebar-nav a {
-    position: relative;
-}
 
 .sidebar.collapsed .sidebar-nav a::after {
     content: attr(data-tooltip);
@@ -193,13 +270,11 @@
     position: absolute;
 
     left: 70px;
-
     top: 50%;
 
     transform: translateY(-50%);
 
     background: var(--card);
-
     color: var(--foreground);
 
     border: 1px solid var(--border);
@@ -211,11 +286,9 @@
     white-space: nowrap;
 
     font-size: 13px;
-
     font-weight: 500;
 
     opacity: 0;
-
     visibility: hidden;
 
     pointer-events: none;
