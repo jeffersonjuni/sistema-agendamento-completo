@@ -463,7 +463,7 @@
 
 
 
-    @vite('resources/js/client/appointments/create.js')
+    @vite('resources/js/appointments/create.js')
 
 
 @endsection
