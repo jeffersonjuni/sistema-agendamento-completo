@@ -8,9 +8,15 @@
 ![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-4.x-06B6D4)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+> 🚀 **Aplicação disponível em produção**
+
+### 🌐 Acesse o sistema
+
+**👉 [sistema-agendamento.rf.gd](https://sistema-agendamento.rf.gd)**
+
 Sistema web completo para gerenciamento de agendamentos, desenvolvido com **Laravel, PHP, MySQL, Blade e Tailwind CSS**, com áreas independentes para administradores e clientes.
 
-A aplicação foi projetada seguindo uma arquitetura organizada, componentizada e preparada para ambiente de produção, oferecendo gerenciamento de serviços, horários, agendamentos, clientes, histórico, relatórios, dashboards, autenticação e configurações de perfil.
+A aplicação foi projetada seguindo uma arquitetura organizada, componentizada e preparada para ambiente de produção, oferecendo gerenciamento de serviços, horários, agendamentos, clientes, histórico, relatórios, dashboards, autenticação e gerenciamento de perfil.
 
 ---
 
@@ -375,7 +381,7 @@ Abaixo estão alguns dos principais pontos da interface que podem ser apresentad
 
 ### 🔐 Login
 
-![Tela de Login](docs/screenshots/login.png)
+![Tela de Login](https://github.com/user-attachments/assets/651bd5d6-9429-4627-aba8-68b992cbc9b1)
 
 Tela de autenticação com validação, feedback visual e opção de exibição da senha.
 
@@ -383,7 +389,7 @@ Tela de autenticação com validação, feedback visual e opção de exibição 
 
 ### 📊 Dashboard Administrativo
 
-![Dashboard Administrativo](docs/screenshots/dashboard-admin.png)
+![Dashboard Administrativo](https://github.com/user-attachments/assets/f8ebe510-542c-46ff-bf03-796068b04c94)
 
 Dashboard com indicadores, gráficos, calendário e informações consolidadas dos agendamentos.
 
@@ -391,7 +397,7 @@ Dashboard com indicadores, gráficos, calendário e informações consolidadas d
 
 ### 📊 Dashboard do Cliente
 
-![Dashboard do Cliente](docs/screenshots/dashboard-client.png)
+![Dashboard do Cliente](https://github.com/user-attachments/assets/4d6a4e7e-eb32-4bf2-a5d1-a80347873463)
 
 Área personalizada para acompanhamento dos próprios agendamentos.
 
@@ -399,7 +405,7 @@ Dashboard com indicadores, gráficos, calendário e informações consolidadas d
 
 ### 📅 Novo Agendamento
 
-![Novo Agendamento](docs/screenshots/novo-agendamento.png)
+![Novo Agendamento](https://github.com/user-attachments/assets/7b87f708-8f72-4b0e-b008-e14066671cbe)
 
 Fluxo de criação de agendamento com seleção de serviço, calendário e horários disponíveis.
 
@@ -407,7 +413,7 @@ Fluxo de criação de agendamento com seleção de serviço, calendário e horá
 
 ### 📋 Gerenciamento de Agendamentos
 
-![Agendamentos](docs/screenshots/agendamentos.png)
+![Agendamentos](https://github.com/user-attachments/assets/ba609e5b-b44d-4aff-84b6-3ec082775d02)
 
 Painel administrativo para gerenciamento dos atendimentos e atualização de status.
 
@@ -415,7 +421,7 @@ Painel administrativo para gerenciamento dos atendimentos e atualização de sta
 
 ### 🛠️ Serviços
 
-![Serviços](docs/screenshots/servicos.png)
+![Serviços](https://github.com/user-attachments/assets/e7ecc6ea-adba-4fc7-ac57-f327788e940b)
 
 CRUD de serviços com pesquisa, paginação, status e ações administrativas.
 
@@ -423,7 +429,7 @@ CRUD de serviços com pesquisa, paginação, status e ações administrativas.
 
 ### 🕒 Horários
 
-![Horários](docs/screenshots/horarios.png)
+![Horários](https://github.com/user-attachments/assets/6f666166-b97a-4f30-90a6-fadd2bc6d6ff)
 
 Configuração do expediente semanal e intervalos de atendimento.
 
@@ -431,7 +437,7 @@ Configuração do expediente semanal e intervalos de atendimento.
 
 ### 📖 Histórico
 
-![Histórico](docs/screenshots/historico.png)
+![Histórico](https://github.com/user-attachments/assets/a0767b39-c194-4307-bb9b-0efb88fcba43)
 
 Histórico de agendamentos com filtros, pesquisa, paginação e informações detalhadas.
 
@@ -439,7 +445,7 @@ Histórico de agendamentos com filtros, pesquisa, paginação e informações de
 
 ### 📄 Relatórios
 
-![Relatórios](docs/screenshots/relatorios.png)
+![Relatórios](https://github.com/user-attachments/assets/632defeb-272a-44f0-af35-da01a9286b0c)
 
 Dashboard de relatórios com indicadores financeiros, filtros e exportação.
 
@@ -447,7 +453,7 @@ Dashboard de relatórios com indicadores financeiros, filtros e exportação.
 
 ### 👤 Perfil
 
-![Perfil](docs/screenshots/perfil.png)
+![Perfil](https://github.com/user-attachments/assets/768692cc-5ef1-4644-b354-8d9b0f3a433d)
 
 Área de gerenciamento de informações pessoais, senha e foto de perfil.
 
@@ -455,7 +461,7 @@ Dashboard de relatórios com indicadores financeiros, filtros e exportação.
 
 ### 🌙 Dark Mode
 
-![Dark Mode](docs/screenshots/dark-mode.png)
+![Dark Mode](https://github.com/user-attachments/assets/e1cc7ecd-e00b-4afe-86a4-d43eb064f192)
 
 Interface completa utilizando o tema escuro do Design System.
 
